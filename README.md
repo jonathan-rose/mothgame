@@ -2,6 +2,14 @@
 
 Submission for the GitHub Game Off 2021
 
+```
+npm install
+```
+
+```
+npm start
+```
+
 ---
 
 #### _Lament for the Moths – Tennessee Williams_
