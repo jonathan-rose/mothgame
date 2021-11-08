@@ -77,10 +77,9 @@ export default class PreloaderScene extends Phaser.Scene {
         
         this.load.audio('bgMusic', ['assets/Komiku_-_07_-_Run_against_the_universe.mp3']);
 
+        this.load.image('moth', 'assets/moth.png');
         this.load.image('sky', 'assets/sky.png');
-        this.load.image('ground', 'assets/platform.png');
-        this.load.image('star', 'assets/star.png');
-        this.load.image('bomb', 'assets/bomb.png');
+        this.load.image('wall', 'assets/wall.png');
         this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
 
         this.load.image('menuBG', 'assets/sky.png');
