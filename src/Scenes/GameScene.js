@@ -13,8 +13,8 @@ export default class GameScene extends Phaser.Scene {
 
     create ()
     {
-        // Add background
-        this.add.image(400, 300, 'sky');
+        // Add background - add .setPipeline('Light2D') for Light Manager
+        this.add.image(400, 300, 'houseBG');
         
         // Create physics group for walls
         walls = this.physics.add.staticGroup();
@@ -44,6 +44,37 @@ export default class GameScene extends Phaser.Scene {
         // var graphics = this.add.graphics({ fillStyle: { color: 0x0000ff } });
 
         // graphics.fillRectShape(rect);
+
+
+        var radius = 200;
+        var intensity = 0.06;
+        var attenuation = 0.1;
+        var roomx = 190;
+        var roomy = 370;
+
+        var light = this.add.pointlight(roomx, roomy, 0, radius, intensity);
+        light.color.setTo(255, 255, 255);
+        light.attenuation = attenuation;
+
+        var graphics = this.make.graphics();
+        var room = graphics.fillRect(roomx-100, roomy-30, 200, 150);
+        var rect = new Phaser.Geom.Rectangle(roomx-100, roomy-30, 200, 150);
+        var mask = room.createGeometryMask();
+
+        room.setInteractive(rect, Phaser.Geom.Rectangle.Contains);
+
+        light.setMask(mask);
+
+        room.on('pointerdown', function () {
+            light.setVisible(!light.visible);
+            console.log("click");
+        });
+
+        //Lights done with Light Manager (no mask?)
+        //this.lights.enable().setAmbientColor(0x555555);
+        // this.lights.enable();
+        // var light = this.lights.addLight(400, 300, radius, 0xffffff, intensity);
+    
     }
 
     update ()
