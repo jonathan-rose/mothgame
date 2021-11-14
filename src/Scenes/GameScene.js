@@ -17,10 +17,10 @@ export default class GameScene extends Phaser.Scene {
     }
 
     create () {
-        console.log(this);
 
-        // Add background
-        this.add.image(400, 300, 'sky');
+
+         // Add background - add .setPipeline('Light2D') for Light Manager
+        this.add.image(400, 300, 'houseBG');
 
         // Use JSON from preload() to make tilemap
         // Use image from reload() to setup tileset
@@ -77,6 +77,33 @@ export default class GameScene extends Phaser.Scene {
             moth.moveTimer.remove();
             moth.destroy();
             console.log("Moth dies...");
+        });
+
+        // Add rectangle
+
+
+        var radius = 200;
+        var intensity = 0.06;
+        var attenuation = 0.1;
+        var roomx = 190;
+        var roomy = 370;
+
+        var light = this.add.pointlight(roomx, roomy, 0, radius, intensity);
+        light.color.setTo(255, 255, 255);
+        light.attenuation = attenuation;
+
+        var graphics = this.make.graphics();
+        var room = graphics.fillRect(roomx-100, roomy-30, 200, 150);
+        var rect = new Phaser.Geom.Rectangle(roomx-100, roomy-30, 200, 150);
+        var mask = room.createGeometryMask();
+
+        room.setInteractive(rect, Phaser.Geom.Rectangle.Contains);
+
+        light.setMask(mask);
+
+        room.on('pointerdown', function () {
+            light.setVisible(!light.visible);
+            console.log("click");
         });
 
 
