@@ -34,10 +34,10 @@ export default class GameScene extends Phaser.Scene {
 
         // Add temporary player
         // For testing only
-        this.player = this.physics.add.sprite(50, 50, "moth");
+        this.player = this.physics.add.sprite(100, 100, "moth");
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        // Add colliders between player and each tile layer
+        // Add colliders between temporary player and each tile layer
         this.physics.add.collider(this.player, wallLayer);
         this.physics.add.collider(this.player, windowsLayer);
         this.physics.add.collider(this.player, hazardsLayer);
@@ -49,12 +49,22 @@ export default class GameScene extends Phaser.Scene {
         hazardsLayer.setCollisionBetween(2, 3);
 
         // Add moth
-        moth = new Moth(this, 400, 100);
+        moth = new Moth(this, 150, 100);
 
         // just spam a bunch of moths for now
-        for (var i = 0; i < 30; i++) {
-            var m = new Moth(this, Phaser.Math.Between(20, 780), Phaser.Math.Between(50, 500));
-        }
+        // for (var i = 0; i < 30; i++) {
+        //     var m = new Moth(this, Phaser.Math.Between(20, 780), Phaser.Math.Between(50, 500));
+        // }
+
+        // Add colliders between moths and hazards layer
+        this.physics.add.collider(moth, wallLayer);
+        this.physics.add.collider(moth, windowsLayer, function(moth, windowsLayer) {
+            
+        });
+        this.physics.add.collider(moth, hazardsLayer, function(moth, hazardsLayer) {
+            moth.moveTimer.remove();
+            moth.destroy();
+        });
     }
 
     update () 
