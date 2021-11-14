@@ -31,6 +31,7 @@ export default class GameScene extends Phaser.Scene {
         const wallLayer = map.createLayer("walls", tileset, 0, 0);
         const windowsLayer = map.createLayer("windows", tileset, 0, 0);
         const hazardsLayer = map.createLayer("hazards", tileset, 0, 0);
+        const lightsLayer = map.createLayer("lights", tileset, 0, 0);
 
         // Add temporary player
         // For testing only
@@ -41,12 +42,14 @@ export default class GameScene extends Phaser.Scene {
         this.physics.add.collider(this.player, wallLayer);
         this.physics.add.collider(this.player, windowsLayer);
         this.physics.add.collider(this.player, hazardsLayer);
+        this.physics.add.collider(this.player, lightsLayer);
 
         // Specify which tiles on each layer the player can collide with
         // Parameters refer to tile IDs found via Tiled editor
         wallLayer.setCollisionBetween(0, 1);
         windowsLayer.setCollisionBetween(1, 2);
         hazardsLayer.setCollisionBetween(2, 3);
+        hazardsLayer.setCollisionBetween(3, 4);
 
         // Moth sprite group (controls physics for all moths)
         this.moths = this.physics.add.group({
