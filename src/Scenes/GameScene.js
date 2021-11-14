@@ -1,49 +1,85 @@
 import 'phaser';
+import { Game, Scene } from 'phaser';
 import Button from '../Objects/Button';
+import Moth from '../Objects/Moth';
 
 var moth;
-var walls;
-
 
 export default class GameScene extends Phaser.Scene {
     constructor () {
         super('Game');
     }
 
+    preload () {
+        //Move to PreloaderScene before release?
+        this.load.image("house1", "assets/tiles/house1.png");
+        this.load.tilemapTiledJSON('map1', "assets/tiles/house1.json");
+    }
 
-    create ()
-    {
-        // Add background - add .setPipeline('Light2D') for Light Manager
+    create () {
+
+
+         // Add background - add .setPipeline('Light2D') for Light Manager
         this.add.image(400, 300, 'houseBG');
-        
-        // Create physics group for walls
-        walls = this.physics.add.staticGroup();
 
-        //  Create members of walls group
-        // walls.create(0, 0, 'wall');
-        // walls.create(0, 100, 'wall');
-        walls.createMultiple({ key: 'wall', repeat: 20})
-        Phaser.Actions.SetXY(walls.getChildren(), 100, 200, 32);
+        // Use JSON from preload() to make tilemap
+        // Use image from reload() to setup tileset
+        const map = this.make.tilemap({key: "map1", tileWidth: 32, tileHeight: 32});
+        const tileset = map.addTilesetImage("tiles1", "house1");
 
-        // Set origin of all members of walls 
-        // Should happen after they have been added to group
-        walls.setOrigin(0,0);
+        // Create variables for each entity layer in JSON tileset
+        const wallLayer = map.createLayer("walls", tileset, 0, 0);
+        const windowsLayer = map.createLayer("windows", tileset, 0, 0);
+        const hazardsLayer = map.createLayer("hazards", tileset, 0, 0);
 
-        // Add moth
-        this.add.image(100, 100, 'moth');
+        // Add temporary player
+        // For testing only
+        this.player = this.physics.add.sprite(100, 100, "moth");
+        this.cursors = this.input.keyboard.createCursorKeys();
 
-        //  Set a collider between moth and walls
-        this.physics.add.collider(moth, walls);
+        // Add colliders between temporary player and each tile layer
+        this.physics.add.collider(this.player, wallLayer);
+        this.physics.add.collider(this.player, windowsLayer);
+        this.physics.add.collider(this.player, hazardsLayer);
 
-        // Checks to see moth overlaps with walls
-        // Call mothCollision() if it does
-        this.physics.add.overlap(moth, walls, mothCollision, null, this);
+        // Specify which tiles on each layer the player can collide with
+        // Parameters refer to tile IDs found via Tiled editor
+        wallLayer.setCollisionBetween(0, 1);
+        windowsLayer.setCollisionBetween(1, 2);
+        hazardsLayer.setCollisionBetween(2, 3);
+
+        // Moth sprite group (controls physics for all moths)
+        this.moths = this.physics.add.group({
+            allowGravity: false,
+            dragX: 80,
+            dragY: 80,
+            bounceX: 0.75,
+            bounceY: 0.75
+        });
+
+        // Randomly add moths for now
+        for (var i = 0; i < 30; i++) {
+            this.moths.add(
+                new Moth(
+                    this,
+                    Phaser.Math.Between(20, 780),
+                    Phaser.Math.Between(50, 500)
+                )
+            );
+        }
+
+        // Add colliders between moths and hazards layer
+        this.physics.add.collider(this.moths, wallLayer);
+        this.physics.add.collider(this.moths, windowsLayer, function(moth, windowsLayer) {
+
+        });
+        this.physics.add.collider(this.moths, hazardsLayer, function(moth, hazardsLayer) {
+            moth.moveTimer.remove();
+            moth.destroy();
+            console.log("Moth dies...");
+        });
 
         // Add rectangle
-        // var rect = new Phaser.Geom.Rectangle(250, 200, 300, 200);
-        // var graphics = this.add.graphics({ fillStyle: { color: 0x0000ff } });
-
-        // graphics.fillRectShape(rect);
 
 
         var radius = 200;
@@ -70,20 +106,15 @@ export default class GameScene extends Phaser.Scene {
             console.log("click");
         });
 
-        //Lights done with Light Manager (no mask?)
-        //this.lights.enable().setAmbientColor(0x555555);
-        // this.lights.enable();
-        // var light = this.lights.addLight(400, 300, radius, 0xffffff, intensity);
-    
+
+
     }
 
     update ()
     {
-        // Add update
+        // Temporary player control
+        // if (this.cursors.up.isDown == true) {
+        //     this.player.setVelocityY(-100);
+        // }
     }
 };
-
-function mothCollision (moth, walls)
-{
-
-}
