@@ -51,24 +51,39 @@ export default class GameScene extends Phaser.Scene {
         // Add moth
         moth = new Moth(this, 150, 100);
 
-        // just spam a bunch of moths for now
-        // for (var i = 0; i < 30; i++) {
-        //     var m = new Moth(this, Phaser.Math.Between(20, 780), Phaser.Math.Between(50, 500));
-        // }
-
         // Add colliders between moths and hazards layer
         this.physics.add.collider(moth, wallLayer);
         this.physics.add.collider(moth, windowsLayer, function(moth, windowsLayer) {
-            
+
         });
         this.physics.add.collider(moth, hazardsLayer, function(moth, hazardsLayer) {
             moth.moveTimer.remove();
             moth.destroy();
             console.log("Moth dies...");
         });
+
+        // Moth sprite group (controls physics for all moths)
+        this.moths = this.physics.add.group({
+            allowGravity: false,
+            dragX: 80,
+            dragY: 80,
+            bounceX: 0.75,
+            bounceY: 0.75
+        });
+
+        // Randomly add moths for now
+        for (var i = 0; i < 30; i++) {
+            this.moths.add(
+                new Moth(
+                    this,
+                    Phaser.Math.Between(20, 780),
+                    Phaser.Math.Between(50, 500)
+                )
+            );
+        }
     }
 
-    update () 
+    update ()
     {
         // Temporary player control
         // if (this.cursors.up.isDown == true) {
