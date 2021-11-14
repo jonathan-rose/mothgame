@@ -64,6 +64,7 @@ export default class GameScene extends Phaser.Scene {
         this.physics.add.collider(moth, hazardsLayer, function(moth, hazardsLayer) {
             moth.moveTimer.remove();
             moth.destroy();
+            console.log("Moth dies...");
         });
     }
 
