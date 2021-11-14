@@ -45,6 +45,8 @@ export default class GameScene extends Phaser.Scene {
         wallLayer.setCollisionBetween(0, 1);
         windowsLayer.setCollisionBetween(1, 2);
         hazardsLayer.setCollisionBetween(2, 3);
+        
+    }
       
     create ()
     {
