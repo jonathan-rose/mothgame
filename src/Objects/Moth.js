@@ -6,6 +6,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         this.scene = scene;
         this.x = x;
         this.y = y;
+        this.speed = 80;
 
         this.moveTimer = scene.time.addEvent({
             delay: 660,
@@ -18,12 +19,12 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
-        this.body.setMass(0.1);
+        this.rand = new Phaser.Math.RandomDataGenerator();
     }
 
-    move()
-    {
-        this.body.setVelocityY(-100);
-        this.body.setVelocityX(Phaser.Math.Between(-40, 40));
+    move() {
+        let r = this.rand.angle();
+        this.body.setVelocityX(this.body.velocity.x + (Math.cos(r) * this.speed));
+        this.body.setVelocityY(this.body.velocity.y + (Math.sin(r) * this.speed));
     }
 }
