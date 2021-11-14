@@ -3,6 +3,8 @@ import { Game, Scene } from 'phaser';
 import Button from '../Objects/Button';
 import Moth from '../Objects/Moth';
 
+var moth;
+
 export default class GameScene extends Phaser.Scene {
     constructor () {
         super('Game');
@@ -45,11 +47,7 @@ export default class GameScene extends Phaser.Scene {
         wallLayer.setCollisionBetween(0, 1);
         windowsLayer.setCollisionBetween(1, 2);
         hazardsLayer.setCollisionBetween(2, 3);
-        
-    }
-      
-    create ()
-    {
+
         // Add moth
         moth = new Moth(this, 400, 100);
 
@@ -59,10 +57,11 @@ export default class GameScene extends Phaser.Scene {
         }
     }
 
-    update () {
+    update () 
+    {
         // Temporary player control
-        if (this.cursors.up.isDown == true) {
-            this.player.setVelocityY(-100);
-        }
+        // if (this.cursors.up.isDown == true) {
+        //     this.player.setVelocityY(-100);
+        // }
     }
 };
