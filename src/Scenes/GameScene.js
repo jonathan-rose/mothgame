@@ -1,58 +1,62 @@
 import 'phaser';
+import { Game, Scene } from 'phaser';
 import Button from '../Objects/Button';
 
 var moth;
-var walls;
-
 
 export default class GameScene extends Phaser.Scene {
     constructor () {
         super('Game');
     }
 
+    preload () {
 
-    create ()
-    {
+        //Move to PreloaderScene before release?
+        this.load.image("house1", "assets/tiles/house1.png");
+        this.load.tilemapTiledJSON('map1', "assets/tiles/house1.json");
+    }
+
+    create () {
+        console.log(this);
+
         // Add background
         this.add.image(400, 300, 'sky');
-        
-        // Create physics group for walls
-        walls = this.physics.add.staticGroup();
-
-        //  Create members of walls group
-        // walls.create(0, 0, 'wall');
-        // walls.create(0, 100, 'wall');
-        walls.createMultiple({ key: 'wall', repeat: 20})
-        Phaser.Actions.SetXY(walls.getChildren(), 100, 200, 32);
-
-        // Set origin of all members of walls 
-        // Should happen after they have been added to group
-        walls.setOrigin(0,0);
 
         // Add moth
-        this.add.image(100, 100, 'moth');
+        moth = this.add.sprite(200, 200, 'moth');
 
-        //  Set a collider between moth and walls
-        this.physics.add.collider(moth, walls);
+        // Use JSON from preload() to make tilemap
+        // Use image from reload() to setup tileset
+        const map = this.make.tilemap({key: "map1", tileWidth: 32, tileHeight: 32});
+        const tileset = map.addTilesetImage("tiles1", "house1");
 
-        // Checks to see moth overlaps with walls
-        // Call mothCollision() if it does
-        this.physics.add.overlap(moth, walls, mothCollision, null, this);
+        // Create variables for each entity layer in JSON tileset
+        const wallLayer = map.createLayer("walls", tileset, 0, 0);
+        const windowsLayer = map.createLayer("windows", tileset, 0, 0);
+        const hazardsLayer = map.createLayer("hazards", tileset, 0, 0);
 
-        // Add rectangle
-        // var rect = new Phaser.Geom.Rectangle(250, 200, 300, 200);
-        // var graphics = this.add.graphics({ fillStyle: { color: 0x0000ff } });
+        // Add temporary player
+        // For testing only
+        this.player = this.physics.add.sprite(50, 50, "moth");
+        this.cursors = this.input.keyboard.createCursorKeys();
 
-        // graphics.fillRectShape(rect);
+        // Add colliders between player and each tile layer
+        this.physics.add.collider(this.player, wallLayer);
+        this.physics.add.collider(this.player, windowsLayer);
+        this.physics.add.collider(this.player, hazardsLayer);
+
+        // Specify which tiles on each layer the player can collide with
+        // Parameters refer to tile IDs found via Tiled editor
+        wallLayer.setCollisionBetween(0, 1);
+        windowsLayer.setCollisionBetween(1, 2);
+        hazardsLayer.setCollisionBetween(2, 3);
+
     }
 
-    update ()
-    {
-        // Add update
+    update () {
+        // Temporary player control
+        if (this.cursors.up.isDown == true) {
+            this.player.setVelocityY(-100);
+        }
     }
 };
-
-function mothCollision (moth, walls)
-{
-
-}
