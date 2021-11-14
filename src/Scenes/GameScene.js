@@ -1,8 +1,7 @@
 import 'phaser';
 import { Game, Scene } from 'phaser';
 import Button from '../Objects/Button';
-
-var moth;
+import Moth from '../Objects/Moth';
 
 export default class GameScene extends Phaser.Scene {
     constructor () {
@@ -10,7 +9,6 @@ export default class GameScene extends Phaser.Scene {
     }
 
     preload () {
-
         //Move to PreloaderScene before release?
         this.load.image("house1", "assets/tiles/house1.png");
         this.load.tilemapTiledJSON('map1', "assets/tiles/house1.json");
@@ -21,9 +19,6 @@ export default class GameScene extends Phaser.Scene {
 
         // Add background
         this.add.image(400, 300, 'sky');
-
-        // Add moth
-        moth = this.add.sprite(200, 200, 'moth');
 
         // Use JSON from preload() to make tilemap
         // Use image from reload() to setup tileset
@@ -50,7 +45,16 @@ export default class GameScene extends Phaser.Scene {
         wallLayer.setCollisionBetween(0, 1);
         windowsLayer.setCollisionBetween(1, 2);
         hazardsLayer.setCollisionBetween(2, 3);
+      
+    create ()
+    {
+        // Add moth
+        moth = new Moth(this, 400, 100);
 
+        // just spam a bunch of moths for now
+        for (var i = 0; i < 30; i++) {
+            var m = new Moth(this, Phaser.Math.Between(20, 780), Phaser.Math.Between(50, 500));
+        }
     }
 
     update () {
