@@ -48,20 +48,6 @@ export default class GameScene extends Phaser.Scene {
         windowsLayer.setCollisionBetween(1, 2);
         hazardsLayer.setCollisionBetween(2, 3);
 
-        // Add moth
-        moth = new Moth(this, 150, 100);
-
-        // Add colliders between moths and hazards layer
-        this.physics.add.collider(moth, wallLayer);
-        this.physics.add.collider(moth, windowsLayer, function(moth, windowsLayer) {
-
-        });
-        this.physics.add.collider(moth, hazardsLayer, function(moth, hazardsLayer) {
-            moth.moveTimer.remove();
-            moth.destroy();
-            console.log("Moth dies...");
-        });
-
         // Moth sprite group (controls physics for all moths)
         this.moths = this.physics.add.group({
             allowGravity: false,
@@ -81,6 +67,20 @@ export default class GameScene extends Phaser.Scene {
                 )
             );
         }
+
+        // Add colliders between moths and hazards layer
+        this.physics.add.collider(this.moths, wallLayer);
+        this.physics.add.collider(this.moths, windowsLayer, function(moth, windowsLayer) {
+
+        });
+        this.physics.add.collider(this.moths, hazardsLayer, function(moth, hazardsLayer) {
+            moth.moveTimer.remove();
+            moth.destroy();
+            console.log("Moth dies...");
+        });
+
+
+
     }
 
     update ()
