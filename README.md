@@ -10,6 +10,8 @@ npm install
 npm start
 ```
 
+Emacs users: The file `.dir-locals.el` stops emacs from creating lock files for this project. Otherwise npm start fails to hot reload
+
 ---
 
 #### _Lament for the Moths – Tennessee Williams_
