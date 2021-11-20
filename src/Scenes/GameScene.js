@@ -33,23 +33,25 @@ export default class GameScene extends Phaser.Scene {
         const hazardsLayer = map.createLayer("hazards", tileset, 0, 0);
         const lightsLayer = map.createLayer("lights", tileset, 0, 0);
 
+        // console.log(lightsLayer);
+
         // Add temporary player
         // For testing only
-        this.player = this.physics.add.sprite(100, 100, "moth");
-        this.cursors = this.input.keyboard.createCursorKeys();
+        // this.player = this.physics.add.sprite(100, 100, "moth");
+        // this.cursors = this.input.keyboard.createCursorKeys();
 
         // Add colliders between temporary player and each tile layer
-        this.physics.add.collider(this.player, wallLayer);
-        this.physics.add.collider(this.player, windowsLayer);
-        this.physics.add.collider(this.player, hazardsLayer);
-        this.physics.add.collider(this.player, lightsLayer);
+        // this.physics.add.collider(this.player, wallLayer);
+        // this.physics.add.collider(this.player, windowsLayer);
+        // this.physics.add.collider(this.player, hazardsLayer);
+        // this.physics.add.collider(this.player, lightsLayer);
 
         // Specify which tiles on each layer the player can collide with
         // Parameters refer to tile IDs found via Tiled editor
         wallLayer.setCollisionBetween(0, 1);
         windowsLayer.setCollisionBetween(1, 2);
         hazardsLayer.setCollisionBetween(2, 3);
-        hazardsLayer.setCollisionBetween(3, 4);
+        lightsLayer.setCollisionBetween(3, 4);
 
         // Moth sprite group (controls physics for all moths)
         this.moths = this.physics.add.group({
@@ -61,12 +63,15 @@ export default class GameScene extends Phaser.Scene {
         });
 
         // Randomly add moths for now
-        for (var i = 0; i < 30; i++) {
+        for (var i = 0; i < 1; i++) {
             this.moths.add(
                 new Moth(
                     this,
-                    Phaser.Math.Between(20, 780),
-                    Phaser.Math.Between(50, 500)
+                    // Phaser.Math.Between(20, 780),
+                    // Phaser.Math.Between(50, 500),
+                    385,
+                    300,
+                    map
                 )
             );
         }
@@ -81,9 +86,9 @@ export default class GameScene extends Phaser.Scene {
             moth.destroy();
             console.log("Moth dies...");
         });
+        this.physics.add.collider(this.moths, lightsLayer);
 
         // Add rectangle
-
 
         var radius = 200;
         var intensity = 0.06;
