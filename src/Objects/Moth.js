@@ -10,7 +10,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         this.speed = 80;
         this.map = map;
         this.attractionRadius = 20;
-
+        
         this.moveTimer = scene.time.addEvent({
             delay: 660,
             startAt: Phaser.Math.Between(0, 330),
@@ -26,12 +26,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
     }
 
     move() {
-        let r = this.rand.angle();
-        this.body.setVelocityX(this.body.velocity.x + (Math.cos(r) * this.speed));
-        this.body.setVelocityY(this.body.velocity.y + (Math.sin(r) * this.speed));
-
-
-        // console.log(this.map.getLayer("lights").tilemapLayer.culledTiles);
+        const attractionFactor = 1;
 
         this.map.setLayer("lights");
         var mothCircle = new Phaser.Geom.Circle(this.x, this.y, this.attractionRadius);
@@ -40,14 +35,19 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         nearestLight.forEach(element => {
             // console.log(element.x, element.y);
             var distanceToElement = Phaser.Math.Distance.Between(this.x, this.y, element.x, element.y);
+            var angleToElement = Phaser.Math.RadToDeg(Phaser.Math.Angle.Between(this.x, this.y, element.x, element.y));
+            var attractionFactor = distanceToElement * 0.01;
             console.log(distanceToElement);
-            this.body.setVelocityX(this.body.velocity.x + (1 / distanceToElement));
-            this.body.setVelocityY(this.body.velocity.y + (1 / distanceToElement));
-        }); 
+            console.log(attractionFactor);
+
+            // let r = this.rand.angle();
+            this.body.setVelocityX(this.body.velocity.x + (Math.cos(angleToElement) * this.speed * attractionFactor));
+            this.body.setVelocityY(this.body.velocity.y + (Math.sin(angleToElement) * this.speed * attractionFactor));
+        });
 
         // console.log(this.map.currentLayerIndex);
         // console.log(this.map.layers);
-        console.log(nearestLight);
+        // console.log(nearestLight);
         
 
         // I cannot seem to find any reference to the tilemap data from this.scene
