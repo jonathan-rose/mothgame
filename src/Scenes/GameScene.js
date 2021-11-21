@@ -24,6 +24,7 @@ export default class GameScene extends Phaser.Scene {
 
         // Use JSON from preload() to make tilemap
         // Use image from reload() to setup tileset
+        // Change to this.map
         const map = this.make.tilemap({key: "map1", tileWidth: 32, tileHeight: 32});
         const tileset = map.addTilesetImage("tiles1", "house1");
 
@@ -69,8 +70,6 @@ export default class GameScene extends Phaser.Scene {
                     this,
                     Phaser.Math.Between(20, 780),
                     Phaser.Math.Between(50, 500),
-                    // 385,
-                    // 300,
                     map
                 )
             );
