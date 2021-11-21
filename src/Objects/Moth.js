@@ -1,6 +1,4 @@
 import 'phaser';
-import { Game } from 'phaser';
-import GameScene from '../Scenes/GameScene';
 
 export default class Moth extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y) {
@@ -10,7 +8,8 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         this.y = y;
         this.speed = 80;
         this.attractionRadius = 200;
-        
+        this.rand = new Phaser.Math.RandomDataGenerator();
+
         this.moveTimer = scene.time.addEvent({
             delay: 660,
             startAt: Phaser.Math.Between(0, 330),
@@ -23,8 +22,6 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         scene.physics.add.existing(this);
 
         this.rand = new Phaser.Math.RandomDataGenerator();
-
-        
     }
 
     move() {
@@ -34,24 +31,18 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         this.body.setVelocityY(this.body.velocity.y + (Math.sin(r) * this.speed));
 
         var mothCircle = new Phaser.Geom.Circle(this.x, this.y, this.attractionRadius);
-        var lightsInMothRadius = this.scene.map.getTilesWithinShape(mothCircle, 
+        var lightsInMothRadius = this.scene.map.getTilesWithinShape(mothCircle,
             {
-            isNotEmpty: true, 
-            isColliding: false, 
+            isNotEmpty: true,
+            isColliding: false,
             hasInterestingFace: false
             },
             this.scene.cameras.main,
             "lights");
 
-        // console.log(lightsInMothRadius);
-
         var nearbyLightsData = [];
 
         lightsInMothRadius.forEach(element => {
-
-            // For testing only
-            // element.setSize(40, 40);
-
             //.pixelX and .pixelY are the top left of the tile
             // They are used because .x and .y return the values of the tile on the tile grid, not the world
             var elementCenterX = (element.pixelX + (element.width / 2));
@@ -67,22 +58,24 @@ export default class Moth extends Phaser.GameObjects.Sprite {
             // (Result is an array of arrays)
             // Then sort by lowest (nearest) to highest (furthest)
             nearbyLightsData.push(elementValues);
-        });  
+        });
+
+        nearbyLightsData.sort((e1, e2) => {
+            return e1[0] - e2[0];
+        });
 
         if (nearbyLightsData.length > 0) {
-            nearbyLightsData.sort((e1, e2) => {
-                return e1[0] - e2[0];
-            });
-        } else {
-            return;
+            // Make the moth point at the nearest light
+            this.setRotation(nearbyLightsData[0][1] + ((Phaser.Math.PI2)/4));
+
+            var attractionFactor = 1; // Define attractionFactor here
         }
+    }
 
-        // Show distance and angle of nearest light
-        console.log(nearbyLightsData[0]);
-
-        var attractionFactor = 1; // Define attractionFactor here
-
-        this.setRotation(nearbyLightsData[0][1] + ((Phaser.Math.PI2)/4));
-
+    destroy() {
+        // Make sure we remove all timers first before calling the
+        // parent `destroy` method to remove the sprite.
+        this.moveTimer.remove();
+        super.destroy();
     }
 }
