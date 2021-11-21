@@ -11,7 +11,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         this.speed = 80;
         this.map = map;
         this.attractionRadius = 200;
-        
+
         this.moveTimer = scene.time.addEvent({
             delay: 660,
             startAt: Phaser.Math.Between(0, 330),
@@ -25,7 +25,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
 
         this.rand = new Phaser.Math.RandomDataGenerator();
 
-        
+
     }
 
     move() {
@@ -35,10 +35,10 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         this.body.setVelocityY(this.body.velocity.y + (Math.sin(r) * this.speed));
 
         var mothCircle = new Phaser.Geom.Circle(this.x, this.y, this.attractionRadius);
-        var lightsInMothRadius = this.map.getTilesWithinShape(mothCircle, 
+        var lightsInMothRadius = this.map.getTilesWithinShape(mothCircle,
             {
-            isNotEmpty: true, 
-            isColliding: false, 
+            isNotEmpty: true,
+            isColliding: false,
             hasInterestingFace: false
             },
             this.scene.cameras.main,
@@ -68,22 +68,18 @@ export default class Moth extends Phaser.GameObjects.Sprite {
             // (Result is an array of arrays)
             // Then sort by lowest (nearest) to highest (furthest)
             nearbyLightsData.push(elementValues);
-        });  
+        });
 
-        if (nearbyLightsData.length < 1) {
-            nearbyLightsData.sort((e1, e2) => {
-                return e1[0] - e2[0];
-            });
-        } else {
-            return;
+        nearbyLightsData.sort((e1, e2) => {
+            return e1[0] - e2[0];
+        });
+
+        if (nearbyLightsData.length > 0) {
+            // Make the moth point at the nearest light
+            console.log(nearbyLightsData[0]);
+            this.setRotation(nearbyLightsData[0][1] + ((Phaser.Math.PI2)/4));
+
+            var attractionFactor = 1; // Define attractionFactor here
         }
-
-        // Show distance and angle of nearest light
-        console.log(nearbyLightsData[0]);
-
-        var attractionFactor = 1; // Define attractionFactor here
-
-        this.setRotation(nearbyLightsData[0][1] + ((Phaser.Math.PI2)/4));
-
     }
 }
