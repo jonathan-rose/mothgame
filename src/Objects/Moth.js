@@ -10,7 +10,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         this.y = y;
         this.speed = 80;
         this.map = map;
-        this.attractionRadius = 200;
+        this.attractionRadius = 500;
         
         this.moveTimer = scene.time.addEvent({
             delay: 660,
@@ -59,12 +59,15 @@ export default class Moth extends Phaser.GameObjects.Sprite {
             var elementCenterY = (element.pixelY + (element.height / 2));
             var distanceToElement = Phaser.Math.Distance.Between(this.x, this.y, elementCenterX, elementCenterY);
             var angleToElement = Phaser.Math.RadToDeg(Phaser.Math.Angle.Between(this.x, this.y, element.x, element.y));
-            // console.log(distanceToElement);
-            // console.log(angleToElement);
 
+            // Create array of distance and angle of current element
             var elementValues = [distanceToElement, angleToElement];
 
+            // Add position and angle of current light to array
+            // (Result is an array of arrays)
+            // Then sort by lowest (nearest) to highest (furthest)
             nearbyLightsData.push(elementValues);
+            nearbyLightsData.sort();
 
             console.log(nearbyLightsData);
 
