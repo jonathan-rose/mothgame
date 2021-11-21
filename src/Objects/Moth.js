@@ -10,7 +10,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         this.y = y;
         this.speed = 80;
         this.map = map;
-        this.attractionRadius = 100;
+        this.attractionRadius = 200;
         
         this.moveTimer = scene.time.addEvent({
             delay: 660,
@@ -24,15 +24,18 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         scene.physics.add.existing(this);
 
         this.rand = new Phaser.Math.RandomDataGenerator();
+
+        
     }
 
     move() {
 
-        // Moth will stop dead if not lights are found within attractionRadius
-        // Must be fixed
+        let r = this.rand.angle();
+        this.body.setVelocityX(this.body.velocity.x + (Math.cos(r) * this.speed));
+        this.body.setVelocityY(this.body.velocity.y + (Math.sin(r) * this.speed));
 
         var mothCircle = new Phaser.Geom.Circle(this.x, this.y, this.attractionRadius);
-        var nearestLight = this.map.getTilesWithinShape(mothCircle, 
+        var lightsInMothRadius = this.map.getTilesWithinShape(mothCircle, 
             {
             isNotEmpty: true, 
             isColliding: false, 
@@ -41,20 +44,35 @@ export default class Moth extends Phaser.GameObjects.Sprite {
             this.scene.cameras.main,
             "lights");
 
-        console.log(nearestLight);
+        // console.log(lightsInMothRadius);
 
-        nearestLight.forEach(element => {
+        var nearbyLightsData = [];
 
-            var distanceToElement = Phaser.Math.Distance.Between(this.x, this.y, element.pixelX, element.pixelY);
-            var angleToElement = Phaser.Math.RadToDeg(Phaser.Math.Angle.Between(this.x, this.y, element.pixelX, element.pixelY));
+        lightsInMothRadius.forEach(element => {
+
+            // For testing only
+            element.setSize(40, 40);
+
+            //.pixelX and .pixelY are the top left of the tile
+            // They are used because .x and .y return the values of the tile on the tile grid, not the world
+            var elementCenterX = (element.pixelX + (element.width / 2));
+            var elementCenterY = (element.pixelY + (element.height / 2));
+            var distanceToElement = Phaser.Math.Distance.Between(this.x, this.y, elementCenterX, elementCenterY);
+            var angleToElement = Phaser.Math.RadToDeg(Phaser.Math.Angle.Between(this.x, this.y, element.x, element.y));
+            // console.log(distanceToElement);
+            // console.log(angleToElement);
+
+            var elementValues = [distanceToElement, angleToElement];
+
+            nearbyLightsData.push(elementValues);
+
+            console.log(nearbyLightsData);
 
             // Must create someway of using these values to pull the moth in
 
             var attractionFactor = 1; // Define attractionFactor here
 
-            let r = this.rand.angle();
-            this.body.setVelocityX(this.body.velocity.x + (Math.cos(angleToElement) * this.speed * attractionFactor));
-            this.body.setVelocityY(this.body.velocity.y + (Math.sin(angleToElement) * this.speed * attractionFactor));
+
         });  
     }
 }

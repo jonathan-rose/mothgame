@@ -67,10 +67,10 @@ export default class GameScene extends Phaser.Scene {
             this.moths.add(
                 new Moth(
                     this,
-                    // Phaser.Math.Between(20, 780),
-                    // Phaser.Math.Between(50, 500),
-                    385,
-                    300,
+                    Phaser.Math.Between(20, 780),
+                    Phaser.Math.Between(50, 500),
+                    // 385,
+                    // 300,
                     map
                 )
             );
