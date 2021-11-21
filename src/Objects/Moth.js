@@ -10,7 +10,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         this.y = y;
         this.speed = 80;
         this.map = map;
-        this.attractionRadius = 500;
+        this.attractionRadius = 100;
         
         this.moveTimer = scene.time.addEvent({
             delay: 660,
