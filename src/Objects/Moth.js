@@ -69,7 +69,8 @@ export default class Moth extends Phaser.GameObjects.Sprite {
             nearbyLightsData.push(elementValues);
             nearbyLightsData.sort();
 
-            console.log(nearbyLightsData);
+            // Show distance and angle of nearest light
+            console.log(nearbyLightsData[0]);
 
             // Must create someway of using these values to pull the moth in
 
