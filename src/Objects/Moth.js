@@ -10,7 +10,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         this.y = y;
         this.speed = 80;
         this.map = map;
-        this.attractionRadius = 500;
+        this.attractionRadius = 100;
         
         this.moveTimer = scene.time.addEvent({
             delay: 660,
@@ -72,7 +72,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
             // Show distance and angle of nearest light
             console.log(nearbyLightsData[0]);
 
-            // Must create someway of using these values to pull the moth in
+            // Must create some way of using these values to pull the moth in
 
             var attractionFactor = 1; // Define attractionFactor here
 
