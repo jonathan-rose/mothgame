@@ -25,14 +25,14 @@ export default class GameScene extends Phaser.Scene {
         // Use JSON from preload() to make tilemap
         // Use image from reload() to setup tileset
         // Change to this.map
-        const map = this.make.tilemap({key: "map1", tileWidth: 32, tileHeight: 32});
-        const tileset = map.addTilesetImage("tiles1", "house1");
+        this.map = this.make.tilemap({key: "map1", tileWidth: 32, tileHeight: 32});
+        const tileset = this.map.addTilesetImage("tiles1", "house1");
 
         // Create variables for each entity layer in JSON tileset
-        const wallLayer = map.createLayer("walls", tileset, 0, 0);
-        const windowsLayer = map.createLayer("windows", tileset, 0, 0);
-        const hazardsLayer = map.createLayer("hazards", tileset, 0, 0);
-        const lightsLayer = map.createLayer("lights", tileset, 0, 0);
+        const wallLayer = this.map.createLayer("walls", tileset, 0, 0);
+        const windowsLayer = this.map.createLayer("windows", tileset, 0, 0);
+        const hazardsLayer = this.map.createLayer("hazards", tileset, 0, 0);
+        const lightsLayer = this.map.createLayer("lights", tileset, 0, 0);
 
         // console.log(lightsLayer);
 
@@ -70,7 +70,6 @@ export default class GameScene extends Phaser.Scene {
                     this,
                     Phaser.Math.Between(20, 780),
                     Phaser.Math.Between(50, 500),
-                    map
                 )
             );
         }
