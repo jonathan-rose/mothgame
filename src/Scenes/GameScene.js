@@ -2,6 +2,7 @@ import 'phaser';
 import { Game, Scene } from 'phaser';
 import Button from '../Objects/Button';
 import Moth from '../Objects/Moth';
+import Window from '../Objects/Window';
 
 var moth;
 
@@ -25,7 +26,9 @@ export default class GameScene extends Phaser.Scene {
         // Use JSON from preload() to make tilemap
         // Use image from reload() to setup tileset
         // Change to this.map
-        this.map = this.make.tilemap({key: "map1", tileWidth: 32, tileHeight: 32});
+        const tileWidth = 32;
+        const tileHeight = 32;
+        this.map = this.make.tilemap({key: "map1", tileWidth: tileWidth, tileHeight: tileHeight});
         const tileset = this.map.addTilesetImage("tiles1", "house1");
 
         // Create variables for each entity layer in JSON tileset
@@ -34,7 +37,12 @@ export default class GameScene extends Phaser.Scene {
         const hazardsLayer = this.map.createLayer("hazards", tileset, 0, 0);
         const lightsLayer = this.map.createLayer("lights", tileset, 0, 0);
 
-        // console.log(lightsLayer);
+        // Create window control objects
+        this.windows = this.add.group();
+        windowsLayer.getTilesWithin(0, 0, tileWidth, tileHeight, {isNotEmpty: true}).forEach(t => {
+            console.log(t);
+            this.windows.add(new Window(this, t));
+        });
 
         // Add temporary player
         // For testing only
@@ -80,7 +88,6 @@ export default class GameScene extends Phaser.Scene {
 
         });
         this.physics.add.collider(this.moths, hazardsLayer, function(moth, hazardsLayer) {
-            moth.moveTimer.remove();
             moth.destroy();
             console.log("Moth dies...");
         });
