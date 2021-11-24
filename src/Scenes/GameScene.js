@@ -1,6 +1,7 @@
 import 'phaser';
 import { Game, Scene } from 'phaser';
 import Button from '../Objects/Button';
+import Light from '../Objects/Light';
 import Moth from '../Objects/Moth';
 import Window from '../Objects/Window';
 
@@ -44,16 +45,12 @@ export default class GameScene extends Phaser.Scene {
             this.windows.add(new Window(this, t));
         });
 
-        // Add temporary player
-        // For testing only
-        // this.player = this.physics.add.sprite(100, 100, "moth");
-        // this.cursors = this.input.keyboard.createCursorKeys();
-
-        // Add colliders between temporary player and each tile layer
-        // this.physics.add.collider(this.player, wallLayer);
-        // this.physics.add.collider(this.player, windowsLayer);
-        // this.physics.add.collider(this.player, hazardsLayer);
-        // this.physics.add.collider(this.player, lightsLayer);
+        // Create pointlights from lights layer
+        this.lights = this.add.group();
+        lightsLayer.getTilesWithin(0, 0, tileWidth, tileHeight, {isNotEmpty: true}).forEach(t => {
+            console.log(t);
+            this.lights.add(new Light(this, t.getCenterX(), t.getCenterY()));
+        });
 
         // Specify which tiles on each layer the player can collide with
         // Parameters refer to tile IDs found via Tiled editor
@@ -95,17 +92,20 @@ export default class GameScene extends Phaser.Scene {
         });
         this.physics.add.collider(this.moths, lightsLayer);
 
-        // Add rectangle
 
-        var radius = 200;
-        var intensity = 0.06;
-        var attenuation = 0.1;
+        // var radius = 200;
+        // var intensity = 0.06;
+        // var attenuation = 0.1;
         var roomx = 190;
         var roomy = 370;
 
-        var light = this.add.pointlight(roomx, roomy, 0, radius, intensity);
-        light.color.setTo(255, 255, 255);
-        light.attenuation = attenuation;
+        // var light = this.add.pointlight(roomx, roomy, 0, radius, intensity);
+        // light.color.setTo(255, 255, 255);
+        // light.attenuation = attenuation;
+
+        var light = new Light(this, roomx, roomy);
+
+        // Add rectangle mask
 
         var graphics = this.make.graphics();
         var room = graphics.fillRect(roomx-100, roomy-30, 200, 150);
@@ -127,9 +127,6 @@ export default class GameScene extends Phaser.Scene {
 
     update ()
     {
-        // Temporary player control
-        // if (this.cursors.up.isDown == true) {
-        //     this.player.setVelocityY(-100);
-        // }
+
     }
 };
