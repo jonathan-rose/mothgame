@@ -7,12 +7,12 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         this.x = x;
         this.y = y;
         this.speed = 80;
-        this.attractionRadius = 800;
+        this.attractionRadius = 200;
         this.rand = new Phaser.Math.RandomDataGenerator();
         this.targetLayer = "lights";
 
         this.moveTimer = scene.time.addEvent({
-            delay: 660,
+            delay: 330,
             startAt: Phaser.Math.Between(0, 330),
             callback: this.move,
             callbackScope: this,
@@ -58,7 +58,11 @@ export default class Moth extends Phaser.GameObjects.Sprite {
             var distanceToElement = Phaser.Math.Distance.Between(this.x, this.y, elementCenterX, elementCenterY);
             var angleToElementRad = Phaser.Math.Angle.Between(this.x, this.y, elementCenterX, elementCenterY);
             // var angleToElementDeg = Phaser.Math.RadToDeg(angleToElementRad);
-            attractionFactor = ((10 / distanceToElement) + this.rand.realInRange(0, 0.65));
+
+            // As distance to light decreases, so does attractionFactor
+            // This is then later used to set the sprites bounce
+            // Result is less bounce when moth is closer to light
+            attractionFactor = ((1 - (10 / distanceToElement)) * 0.75);
             // console.log(distanceToElement, attractionFactor);
 
             // Add position and angle of current light to nearbyLightsData array
@@ -78,10 +82,13 @@ export default class Moth extends Phaser.GameObjects.Sprite {
             this.setRotation(nearbyLightsData[0][1] + ((Phaser.Math.PI2)/4));
 
             // Make moth move in direction of nearest light
-            // The moth will also continue to move randomly whenever move() is called
-            this.body.setVelocityX(this.body.velocity.x + (Math.cos(nearbyLightsData[0][1]) * (this.speed * this.rand.realInRange(0, 1.25))));
-            this.body.setVelocityY(this.body.velocity.y + (Math.sin(nearbyLightsData[0][1]) * (this.speed * this.rand.realInRange(0, 1.25))));
+            this.body.setVelocityX(this.body.velocity.x + (Math.cos(nearbyLightsData[0][1]) * this.speed));
+            this.body.setVelocityY(this.body.velocity.y + (Math.sin(nearbyLightsData[0][1]) * this.speed));
+            console.log(attractionFactor);
             this.body.setBounce(attractionFactor);
+        } else {
+            var newAngle = Phaser.Math.Angle.RotateTo(this.rotation, this.rand.rotation(), this.rand.realInRange(0, 0.5));
+            this.setRotation(newAngle);
         }
     }
 
