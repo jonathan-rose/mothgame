@@ -78,6 +78,8 @@ export default class GameScene extends Phaser.Scene {
                     this,
                     Phaser.Math.Between(20, 780),
                     Phaser.Math.Between(50, 500),
+                    // 100,
+                    // 200
                 )
             );
         }
