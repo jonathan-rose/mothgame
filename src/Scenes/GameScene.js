@@ -41,15 +41,15 @@ export default class GameScene extends Phaser.Scene {
         // Create window control objects
         this.windows = this.add.group();
         windowsLayer.getTilesWithin(0, 0, tileWidth, tileHeight, {isNotEmpty: true}).forEach(t => {
-            console.log(t);
+            // console.log(t);
             this.windows.add(new Window(this, t));
         });
 
         // Create pointlights from lights layer
         this.lights = this.add.group();
         lightsLayer.getTilesWithin(0, 0, tileWidth, tileHeight, {isNotEmpty: true}).forEach(t => {
-            console.log(t);
-            this.lights.add(new Light(this, t.getCenterX(), t.getCenterY()));
+            // console.log(t);
+            this.lights.add(new Light(this, t.getCenterX(), t.getCenterY(), 200, 150, 200));
         });
 
         // Specify which tiles on each layer the player can collide with
@@ -90,41 +90,11 @@ export default class GameScene extends Phaser.Scene {
             moth.destroy();
             console.log("Moth dies...");
         });
-        this.physics.add.collider(this.moths, lightsLayer);
-
-
-        // var radius = 200;
-        // var intensity = 0.06;
-        // var attenuation = 0.1;
-        var roomx = 190;
-        var roomy = 370;
-
-        // var light = this.add.pointlight(roomx, roomy, 0, radius, intensity);
-        // light.color.setTo(255, 255, 255);
-        // light.attenuation = attenuation;
-
-        var light = new Light(this, roomx, roomy);
-
-        // Add rectangle mask
-
-        var graphics = this.make.graphics();
-        var room = graphics.fillRect(roomx-100, roomy-30, 200, 150);
-        var rect = new Phaser.Geom.Rectangle(roomx-100, roomy-30, 200, 150);
-        var mask = room.createGeometryMask();
-
-        room.setInteractive(rect, Phaser.Geom.Rectangle.Contains);
-
-        light.setMask(mask);
-
-        room.on('pointerdown', function () {
-            light.setVisible(!light.visible);
-            console.log("click");
+        this.physics.add.collider(this.moths, lightsLayer, function(moth, lightsLayer) {
+            console.log("Ow...");
         });
-
-
-
+    
     }
-
     update ()
     {
 
