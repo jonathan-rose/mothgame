@@ -1,4 +1,5 @@
 import 'phaser'
+import GameScene from '../Scenes/GameScene';
 
 export default class Light extends Phaser.GameObjects.PointLight {
 
@@ -14,13 +15,17 @@ export default class Light extends Phaser.GameObjects.PointLight {
         this.attenuation = 0.1;
         this.color.setTo(255, 255, 255);
 
-        console.log(this.type, this.x, this.y);
-
-        // var clickRect = new Phaser.Geom.Rectangle(this.x - (maskWidth / 2), this.y - (maskHeight / 2), maskWidth, maskHeight);
-        // var maskRect = new Phaser.Geom.Rectangle(this.x, this.y, 40, 40);
-
-        // var clickRect = new Phaser.GameObjects.Rectangle(this.scene, this.x, this.y, maskWidth, maskHeight, 0xff0000);
-        // scene.add.existing(clickRect);
+        // The lights will currently disappear when player clicks on any part of light radius
+        // Even if it is masked
+        // I haven't been able to fix this yet
+        // Beth's method of using a Rectangle wouldn't work
+        this.setInteractive();
+        this.on('pointerdown', function () {
+            this.scene.map.setLayer("lights");
+            var tileClicked = this.scene.map.getTileAtWorldXY(this.x, this.y);
+            tileClicked.setVisible(!this.visible);
+            this.setVisible(!this.visible); //Toggle doesn't work
+        });
 
         // Add rectangle mask
         var tileHeight = this.scene.map.tileHeight;
@@ -28,21 +33,6 @@ export default class Light extends Phaser.GameObjects.PointLight {
         var room = graphics.fillRect(this.x - (this.maskWidth / 2), this.y - (tileHeight / 2), this.maskWidth, this.maskHeight);
         var mask = room.createGeometryMask();
         this.setMask(mask);
-
-        // this.setInteractive(clickRect, Phaser.Geom.Rectangle.Contains);
-        // this.on('pointerdown', function () {
-        //     // console.log(this);
-        //     this.setVisible(!this.setVisible);
-        //     console.log("click");
-        // });
-
-
-        // room.setInteractive(rect, Phaser.Geom.Rectangle.Contains);
-
-        // room.on('pointerdown', function () {
-        //     this.setVisible(!this.visible);
-        //     console.log("click");
-        // });
 
         scene.add.existing(this);
     }

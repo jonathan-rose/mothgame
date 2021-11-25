@@ -37,6 +37,15 @@ export default class GameScene extends Phaser.Scene {
         const windowsLayer = this.map.createLayer("windows", tileset, 0, 0);
         const hazardsLayer = this.map.createLayer("hazards", tileset, 0, 0);
         const lightsLayer = this.map.createLayer("lights", tileset, 0, 0);
+        const roomsLayer = this.map.getObjectLayer("RoomObjects");
+
+        console.log(roomsLayer);
+
+        this.rooms = this.add.group();
+        roomsLayer.objects.forEach(t => {
+            // this.add.rectangle(t.x, t.y, t.width, t.height, 0xff0000);
+            this.rooms.add(new Light(this, t.x, t.y, t.width, t.height, t.properties[0].value));
+        })
 
         // Create window control objects
         this.windows = this.add.group();
@@ -44,7 +53,7 @@ export default class GameScene extends Phaser.Scene {
             // console.log(t);
             this.windows.add(new Window(this, t));
         });
-
+        
         // Create pointlights from lights layer
         this.lights = this.add.group();
         lightsLayer.getTilesWithin(0, 0, tileWidth, tileHeight, {isNotEmpty: true}).forEach(t => {
