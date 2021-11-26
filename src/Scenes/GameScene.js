@@ -30,7 +30,10 @@ export default class GameScene extends Phaser.Scene {
         const tileWidth = 10;
         const tileHeight = 10;
         this.map = this.make.tilemap({key: "map1", tileWidth: tileWidth, tileHeight: tileHeight});
-        const tileset = this.map.addTilesetImage("tiles1", "house1");
+        // First parameter should be name of tileset as seen in Tiled tilesets list
+        const tileset = this.map.addTilesetImage("10x10tileset", "house1");
+
+        console.log(this.map.tilesets);
 
         // Create variables for each entity layer in JSON tileset
         const wallLayer = this.map.createLayer("walls", tileset, 0, 0);
@@ -39,16 +42,16 @@ export default class GameScene extends Phaser.Scene {
         const lightsLayer = this.map.createLayer("lights", tileset, 0, 0);
         const roomsLayer = this.map.getObjectLayer("RoomObjects");
 
-        console.log(roomsLayer);
-
         this.rooms = this.add.group();
         roomsLayer.objects.forEach(o => {
             // this.add.rectangle(t.x, t.y, t.width, t.height, 0xff0000);
-            // Radius value is found using an array search
-            // Radius is set as property in Tiled custom properties
+            // Custom properties such as radius are found using an array search
+            // These are set as property in Tiled custom properties
             // When new custom properties are added to a Tiled object, the order of properties in array can change
             // By searching for the property by name, we avoid problems if more custom properties are added in future
-            this.rooms.add(new Light(this, o.x, o.y, o.width, o.height, o.properties.find(el => el.name === "radius").value));
+            var radius = o.properties.find(el => el.name === "radius").value;
+            var intensity = o.properties.find(el => el.name === "intensity").value;
+            this.rooms.add(new Light(this, o.x, o.y, o.width, o.height, radius, intensity));
         })
 
         // Create window control objects
@@ -59,11 +62,11 @@ export default class GameScene extends Phaser.Scene {
         });
         
         // Create pointlights from lights layer
-        this.lights = this.add.group();
-        lightsLayer.getTilesWithin(0, 0, tileWidth, tileHeight, {isNotEmpty: true}).forEach(t => {
-            // console.log(t);
-            this.lights.add(new Light(this, t.getCenterX(), t.getCenterY(), 200, 150, 200));
-        });
+        // this.lights = this.add.group();
+        // lightsLayer.getTilesWithin(0, 0, tileWidth, tileHeight, {isNotEmpty: true}).forEach(t => {
+        //     // console.log(t);
+        //     this.lights.add(new Light(this, t.getCenterX(), t.getCenterY(), 200, 150, 200));
+        // });
 
         // Specify which tiles on each layer the player can collide with
         // Parameters refer to tile IDs found via Tiled editor
