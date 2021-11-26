@@ -84,7 +84,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
             // Make moth move in direction of nearest light
             this.body.setVelocityX(this.body.velocity.x + (Math.cos(nearbyLightsData[0][1]) * this.speed));
             this.body.setVelocityY(this.body.velocity.y + (Math.sin(nearbyLightsData[0][1]) * this.speed));
-            console.log(attractionFactor);
+            // console.log(attractionFactor);
             this.body.setBounce(attractionFactor);
         } else {
             var newAngle = Phaser.Math.Angle.RotateTo(this.rotation, this.rand.rotation(), this.rand.realInRange(0, 0.5));

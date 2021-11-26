@@ -1,6 +1,7 @@
 import 'phaser';
 import { Game, Scene } from 'phaser';
 import Button from '../Objects/Button';
+import Light from '../Objects/Light';
 import Moth from '../Objects/Moth';
 import Window from '../Objects/Window';
 
@@ -36,24 +37,33 @@ export default class GameScene extends Phaser.Scene {
         const windowsLayer = this.map.createLayer("windows", tileset, 0, 0);
         const hazardsLayer = this.map.createLayer("hazards", tileset, 0, 0);
         const lightsLayer = this.map.createLayer("lights", tileset, 0, 0);
+        const roomsLayer = this.map.getObjectLayer("RoomObjects");
+
+        console.log(roomsLayer);
+
+        this.rooms = this.add.group();
+        roomsLayer.objects.forEach(o => {
+            // this.add.rectangle(t.x, t.y, t.width, t.height, 0xff0000);
+            // Radius value is found using an array search
+            // Radius is set as property in Tiled custom properties
+            // When new custom properties are added to a Tiled object, the order of properties in array can change
+            // By searching for the property by name, we avoid problems if more custom properties are added in future
+            this.rooms.add(new Light(this, o.x, o.y, o.width, o.height, o.properties.find(el => el.name === "radius").value));
+        })
 
         // Create window control objects
         this.windows = this.add.group();
         windowsLayer.getTilesWithin(0, 0, tileWidth, tileHeight, {isNotEmpty: true}).forEach(t => {
-            console.log(t);
+            // console.log(t);
             this.windows.add(new Window(this, t));
         });
-
-        // Add temporary player
-        // For testing only
-        // this.player = this.physics.add.sprite(100, 100, "moth");
-        // this.cursors = this.input.keyboard.createCursorKeys();
-
-        // Add colliders between temporary player and each tile layer
-        // this.physics.add.collider(this.player, wallLayer);
-        // this.physics.add.collider(this.player, windowsLayer);
-        // this.physics.add.collider(this.player, hazardsLayer);
-        // this.physics.add.collider(this.player, lightsLayer);
+        
+        // Create pointlights from lights layer
+        this.lights = this.add.group();
+        lightsLayer.getTilesWithin(0, 0, tileWidth, tileHeight, {isNotEmpty: true}).forEach(t => {
+            // console.log(t);
+            this.lights.add(new Light(this, t.getCenterX(), t.getCenterY(), 200, 150, 200));
+        });
 
         // Specify which tiles on each layer the player can collide with
         // Parameters refer to tile IDs found via Tiled editor
@@ -93,43 +103,13 @@ export default class GameScene extends Phaser.Scene {
             moth.destroy();
             console.log("Moth dies...");
         });
-        this.physics.add.collider(this.moths, lightsLayer);
-
-        // Add rectangle
-
-        var radius = 200;
-        var intensity = 0.06;
-        var attenuation = 0.1;
-        var roomx = 190;
-        var roomy = 370;
-
-        var light = this.add.pointlight(roomx, roomy, 0, radius, intensity);
-        light.color.setTo(255, 255, 255);
-        light.attenuation = attenuation;
-
-        var graphics = this.make.graphics();
-        var room = graphics.fillRect(roomx-100, roomy-30, 200, 150);
-        var rect = new Phaser.Geom.Rectangle(roomx-100, roomy-30, 200, 150);
-        var mask = room.createGeometryMask();
-
-        room.setInteractive(rect, Phaser.Geom.Rectangle.Contains);
-
-        light.setMask(mask);
-
-        room.on('pointerdown', function () {
-            light.setVisible(!light.visible);
-            console.log("click");
+        this.physics.add.collider(this.moths, lightsLayer, function(moth, lightsLayer) {
+            console.log("Ow...");
         });
-
-
-
+    
     }
-
     update ()
     {
-        // Temporary player control
-        // if (this.cursors.up.isDown == true) {
-        //     this.player.setVelocityY(-100);
-        // }
+
     }
 };
