@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="80" height="60" tilewidth="10" tileheight="10" infinite="0" nextlayerid="7" nextobjectid="8">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="80" height="60" tilewidth="10" tileheight="10" infinite="0" nextlayerid="7" nextobjectid="11">
  <editorsettings>
   <export target="10x10tiles.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="background" tilewidth="800" tileheight="600" tilecount="1" columns="1">
   <image source="../img/house.png" width="800" height="600"/>
  </tileset>
- <tileset firstgid="2" name="10x10tileset" tilewidth="10" tileheight="10" tilecount="4" columns="4">
-  <image source="10x10tiles.png" width="40" height="10"/>
+ <tileset firstgid="2" name="10x10tileset" tilewidth="10" tileheight="10" tilecount="5" columns="5">
+  <image source="10x10tiles.png" width="50" height="10"/>
  </tileset>
  <layer id="1" name="background" width="80" height="60">
   <data encoding="csv">
@@ -155,7 +155,6 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -175,7 +174,8 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -330,39 +330,46 @@
 </data>
  </layer>
  <objectgroup id="6" name="RoomObjects">
-  <object id="1" name="room1" type="room" x="91.8914" y="159.68" width="167.212" height="189.055">
+  <object id="1" name="room1" type="room" x="90" y="160.68" width="170" height="190">
    <properties>
-    <property name="radius" type="int" value="500"/>
+    <property name="intensity" type="float" value="0.07"/>
+    <property name="radius" type="int" value="200"/>
    </properties>
   </object>
-  <object id="2" name="room2" type="room" x="262.116" y="160.433" width="123.526" height="186.796">
+  <object id="2" name="room2" type="room" x="260" y="160" width="129.333" height="190">
    <properties>
+    <property name="intensity" type="float" value="0.06"/>
     <property name="radius" type="int" value="100"/>
    </properties>
   </object>
-  <object id="3" name="room3" type="room" x="390.162" y="161.94" width="206.379" height="187.549">
+  <object id="3" name="room3" type="room" x="390" y="160" width="210" height="190">
    <properties>
-    <property name="radius" type="int" value="500"/>
+    <property name="intensity" type="float" value="0.07"/>
+    <property name="radius" type="int" value="200"/>
    </properties>
   </object>
-  <object id="4" name="room4" type="room" x="598.8" y="161.187" width="111.475" height="186.796">
+  <object id="4" name="room4" type="room" x="600" y="160" width="110" height="190">
    <properties>
+    <property name="intensity" type="float" value="0.06"/>
+    <property name="radius" type="int" value="50"/>
+   </properties>
+  </object>
+  <object id="5" name="room5" type="room" x="90" y="360" width="200" height="200">
+   <properties>
+    <property name="intensity" type="float" value="0.06"/>
     <property name="radius" type="int" value="100"/>
    </properties>
   </object>
-  <object id="5" name="room5" type="room" x="91.1382" y="361.54" width="196.587" height="195.834">
+  <object id="6" name="room6" type="room" x="290" y="360" width="170" height="200">
    <properties>
-    <property name="radius" type="int" value="400"/>
+    <property name="intensity" type="float" value="0.06"/>
+    <property name="radius" type="int" value="100"/>
    </properties>
   </object>
-  <object id="6" name="room6" type="room" x="292.998" y="360.033" width="163.446" height="198.847">
+  <object id="7" name="room7" type="room" x="460.21" y="360" width="250" height="200">
    <properties>
-    <property name="radius" type="int" value="300"/>
-   </properties>
-  </object>
-  <object id="7" name="room7" type="room" x="460.21" y="352.501" width="250.065" height="207.132">
-   <properties>
-    <property name="radius" type="int" value="600"/>
+    <property name="intensity" type="float" value="0.08"/>
+    <property name="radius" type="int" value="100"/>
    </properties>
   </object>
  </objectgroup>

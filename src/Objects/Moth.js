@@ -35,6 +35,8 @@ export default class Moth extends Phaser.GameObjects.Sprite {
 
         // Create a circule around the moth of predefined radius
         // Look for tiles in tilemap that belong to targeted layer
+        // Possible variable for state of light?
+        // Moth only selects from list those that are set to on / true / active or whatever
         var mothCircle = new Phaser.Geom.Circle(this.x, this.y, this.attractionRadius);
         var lightsInMothRadius = this.scene.map.getTilesWithinShape(mothCircle,
             {
