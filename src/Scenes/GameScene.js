@@ -44,7 +44,11 @@ export default class GameScene extends Phaser.Scene {
         this.rooms = this.add.group();
         roomsLayer.objects.forEach(o => {
             // this.add.rectangle(t.x, t.y, t.width, t.height, 0xff0000);
-            this.rooms.add(new Light(this, o.x, o.y, o.width, o.height, o.properties[0].value));
+            // Radius value is found using an array search
+            // Radius is set as property in Tiled custom properties
+            // When new custom properties are added to a Tiled object, the order of properties in array can change
+            // By searching for the property by name, we avoid problems if more custom properties are added in future
+            this.rooms.add(new Light(this, o.x, o.y, o.width, o.height, o.properties.find(el => el.name === "radius").value));
         })
 
         // Create window control objects

@@ -70,123 +70,38 @@
          "name":"RoomObjects",
          "objects":[
                 {
-                 "height":169.333333333333,
+                 "height":169.333,
                  "id":29,
                  "name":"room1",
                  "properties":[
                         {
                          "name":"radius",
-                         "type":"string",
-                         "value":"100"
+                         "type":"int",
+                         "value":500
                         }],
                  "rotation":0,
-                 "type":"",
+                 "type":"room",
                  "visible":true,
-                 "width":178.000333333333,
-                 "x":94.6666666666667,
-                 "y":159.333333333333
+                 "width":178,
+                 "x":94.6667,
+                 "y":160.333
                 }, 
                 {
-                 "height":148,
-                 "id":37,
-                 "name":"room5",
-                 "properties":[
-                        {
-                         "name":"radius",
-                         "type":"string",
-                         "value":"40"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":199.333666666667,
-                 "x":90,
-                 "y":340.666666666667
-                }, 
-                {
-                 "height":148,
-                 "id":38,
-                 "name":"room6",
-                 "properties":[
-                        {
-                         "name":"radius",
-                         "type":"string",
-                         "value":"250"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":140.667,
-                 "x":302,
-                 "y":340.666666666667
-                }, 
-                {
-                 "height":149.333333333333,
-                 "id":39,
-                 "name":"room7",
-                 "properties":[
-                        {
-                         "name":"radius",
-                         "type":"string",
-                         "value":"350"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":240.667,
-                 "x":450,
-                 "y":340.666666666667
-                }, 
-                {
-                 "height":172.000333333333,
-                 "id":32,
+                 "height":167.333,
+                 "id":40,
                  "name":"room2",
                  "properties":[
                         {
                          "name":"radius",
-                         "type":"string",
-                         "value":"200"
+                         "type":"int",
+                         "value":100
                         }],
                  "rotation":0,
-                 "type":"",
+                 "type":"room",
                  "visible":true,
-                 "width":94.667,
-                 "x":279.333333333333,
-                 "y":158.999666666667
-                }, 
-                {
-                 "height":173.333666666667,
-                 "id":35,
-                 "name":"room3",
-                 "properties":[
-                        {
-                         "name":"radius",
-                         "type":"string",
-                         "value":"500"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":174.667,
-                 "x":384,
-                 "y":157.666333333333
-                }, 
-                {
-                 "height":174.667,
-                 "id":36,
-                 "name":"room4",
-                 "properties":[
-                        {
-                         "name":"radius",
-                         "type":"string",
-                         "value":"100"
-                        }],
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":120.000333333333,
-                 "x":568,
-                 "y":155.666333333333
+                 "width":95,
+                 "x":280.6667,
+                 "y":161.333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -195,7 +110,7 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":40,
+ "nextobjectid":41,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.2",
