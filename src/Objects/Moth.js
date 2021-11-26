@@ -10,6 +10,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         this.attractionRadius = 200;
         this.rand = new Phaser.Math.RandomDataGenerator();
         this.targetLayer = "lights";
+        this.isEscaping = false;
 
         this.moveTimer = scene.time.addEvent({
             delay: 330,
@@ -117,6 +118,25 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         this.body.setVelocityX(this.body.velocity.x + (Math.cos(r) * this.speed));
         this.body.setVelocityY(this.body.velocity.y + (Math.sin(r) * this.speed));
         this.setRotation(r + ((Phaser.Math.PI2)/4));
+    }
+
+    escape() {
+        let targetY = this.y + Phaser.Math.Between(-90, 90);
+        let targetX = -100;
+        if (this.x > this.scene.sys.game.canvas.width / 2) {
+            targetX = this.scene.sys.game.canvas.width + 100;
+        }
+        this.scene.tweens.add({
+            targets: this,
+            duration: 800,
+            x: targetX,
+            y: targetY,
+            ease: 'linear',
+            onComplete: this.destroy,
+            onCompleteScope: this
+        });
+        // Don't want to add more of these tweens next frame.
+        this.isEscaping = false;
     }
 
     destroy() {

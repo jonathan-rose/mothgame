@@ -48,9 +48,9 @@ export default class GameScene extends Phaser.Scene {
             // When new custom properties are added to a Tiled object, the order of properties in array can change
             // By searching for the property by name, we avoid problems if more custom properties are added in future
             var radius = o.properties.find(el => el.name === "radius").value;
-            var intensity = o.properties.find(el => el.name === "intensity").value;  
+            var intensity = o.properties.find(el => el.name === "intensity").value;
             this.rooms.add(new Room(this, o.x, o.y, o.width, o.height, radius, intensity, o.name));
-        })
+        });
 
         // Create window control objects
         this.windows = this.add.group();
@@ -58,7 +58,14 @@ export default class GameScene extends Phaser.Scene {
             // console.log(t);
             this.windows.add(new Window(this, t));
         });
-       
+
+        // Create pointlights from lights layer
+        this.lights = this.add.group();
+        lightsLayer.getTilesWithin(0, 0, tileWidth, tileHeight, {isNotEmpty: true}).forEach(t => {
+            // console.log(t);
+            this.lights.add(new Light(this, t.getCenterX(), t.getCenterY(), 200, 150, 200));
+        });
+
         // Specify which tiles on each layer the player can collide with
         // Parameters refer to tile IDs found via Tiled editor
         wallLayer.setCollision(2);
@@ -77,21 +84,21 @@ export default class GameScene extends Phaser.Scene {
 
         // Randomly add moths for now
         for (var i = 0; i < 1; i++) {
-            this.moths.add(
-                new Moth(
-                    this,
-                    Phaser.Math.Between(20, 780),
-                    Phaser.Math.Between(50, 500),
-                    // 100,
-                    // 200
-                )
-            );
+            let m = new Moth(this, Phaser.Math.Between(20, 780), Phaser.Math.Between(50, 500));
+            m.isEscaping = true;
+            this.moths.add(m);
         }
 
         // Add colliders between moths and hazards layer
         this.physics.add.collider(this.moths, wallLayer);
         this.physics.add.collider(this.moths, windowsLayer, function(moth, windowsLayer) {
-
+            if (moth.isEscaping) {
+                moth.escape();
+                // increment score?
+                console.log("moth escaping");
+            } else if (!moth.isEscaping) {
+                console.log("moth entering");
+            }
         });
         this.physics.add.collider(this.moths, hazardsLayer, function(moth, hazardsLayer) {
             moth.destroy();

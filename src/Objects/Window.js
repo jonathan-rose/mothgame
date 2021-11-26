@@ -23,7 +23,6 @@ export default class Window extends Phaser.GameObjects.Rectangle {
 
         // We need to know which side of the house the window is on.
         this.side = 'right';
-        console.log(this.scene.sys.game.canvas.width);
         if (this.x < this.scene.sys.game.canvas.width / 2) {
             this.side = 'left';
         }
@@ -109,7 +108,9 @@ export default class Window extends Phaser.GameObjects.Rectangle {
                     duration: 300,
                     x: endX,
                     y: this.y,
-                    ease: 'cubic.out'
+                    ease: 'cubic.out',
+                    onComplete: function() {this.isEscaping = true;},
+                    onCompleteScope: moth
                 });
                 this.scene.moths.add(moth);
             }
