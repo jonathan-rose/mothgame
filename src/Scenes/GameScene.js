@@ -14,8 +14,8 @@ export default class GameScene extends Phaser.Scene {
 
     preload () {
         //Move to PreloaderScene before release?
-        this.load.image("house1", "assets/tiles/house1.png");
-        this.load.tilemapTiledJSON('map1', "assets/tiles/house1.json");
+        this.load.image("house1", "assets/tiles/10x10tiles.png");
+        this.load.tilemapTiledJSON('map1', "assets/tiles/10x10tiles.json");
     }
 
     create () {
@@ -27,8 +27,8 @@ export default class GameScene extends Phaser.Scene {
         // Use JSON from preload() to make tilemap
         // Use image from reload() to setup tileset
         // Change to this.map
-        const tileWidth = 32;
-        const tileHeight = 32;
+        const tileWidth = 10;
+        const tileHeight = 10;
         this.map = this.make.tilemap({key: "map1", tileWidth: tileWidth, tileHeight: tileHeight});
         const tileset = this.map.addTilesetImage("tiles1", "house1");
 
@@ -67,10 +67,10 @@ export default class GameScene extends Phaser.Scene {
 
         // Specify which tiles on each layer the player can collide with
         // Parameters refer to tile IDs found via Tiled editor
-        wallLayer.setCollisionBetween(0, 1);
-        windowsLayer.setCollisionBetween(1, 2);
-        hazardsLayer.setCollisionBetween(2, 3);
-        lightsLayer.setCollisionBetween(3, 4);
+        wallLayer.setCollision(2);
+        windowsLayer.setCollision(5);
+        hazardsLayer.setCollision(4);
+        lightsLayer.setCollision(3);
 
         // Moth sprite group (controls physics for all moths)
         this.moths = this.physics.add.group({
