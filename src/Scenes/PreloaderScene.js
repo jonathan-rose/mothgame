@@ -80,9 +80,9 @@ export default class PreloaderScene extends Phaser.Scene {
         this.load.image('moth', 'assets/img/moth.png');
         this.load.image('sky', 'assets/sky.png');
         this.load.image('wall', 'assets/wall.png');
-        this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+        this.load.spritesheet('mothSprite', 'assets/img/mothspritesheet.png', { frameWidth: 32, frameHeight: 20 });
 
-        this.load.image('menuBG', 'assets/sky.png');
+        this.load.image('menuBG', 'assets/img/MenuBackground.png');
         this.load.image('aboutBG', 'assets/sky.png');
         this.load.image('deathScene', 'assets/deathScene.png');
 

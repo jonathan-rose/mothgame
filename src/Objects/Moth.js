@@ -2,7 +2,7 @@ import 'phaser';
 
 export default class Moth extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y) {
-        super(scene, x, y, 'moth');
+        super(scene, x, y, 'mothSprite');
         this.scene = scene;
         this.x = x;
         this.y = y;
@@ -23,6 +23,14 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         scene.physics.add.existing(this);
 
         this.rand = new Phaser.Math.RandomDataGenerator();
+
+        this.scene.anims.create({
+            key: 'flap',
+            frames: this.anims.generateFrameNumbers('mothSprite'),
+            frameRate: 12
+        });
+
+        this.play({ key: 'flap', repeat: -1 });
     }
 
     move() {
