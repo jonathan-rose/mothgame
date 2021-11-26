@@ -1,11 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="11" nextobjectid="35">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="12" nextobjectid="40">
  <editorsettings>
   <export target="house1.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="tiles1" tilewidth="32" tileheight="32" tilecount="16" columns="4">
   <image source="house1.png" width="128" height="128"/>
  </tileset>
+ <tileset firstgid="17" name="background" tilewidth="800" tileheight="600" tilecount="1" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="0">
+   <image width="800" height="600" source="../BasicHouse.png"/>
+  </tile>
+ </tileset>
+ <layer id="11" name="background" width="25" height="19" offsetx="0" offsety="-8">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
  <layer id="1" name="walls" width="25" height="19">
   <data encoding="csv">
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -99,14 +128,39 @@
 </data>
  </layer>
  <objectgroup id="10" name="RoomObjects">
-  <object id="29" name="room1" x="264.667" y="45" width="277.333" height="216">
+  <object id="29" name="room1" x="94.6667" y="159.333" width="178" height="169.333">
    <properties>
     <property name="radius" value="100"/>
    </properties>
   </object>
-  <object id="32" name="room2" x="302" y="286.333" width="202.667" height="214.667">
+  <object id="37" name="room5" x="90" y="340.667" width="199.334" height="148">
    <properties>
-    <property name="radius" value="300"/>
+    <property name="radius" value="40"/>
+   </properties>
+  </object>
+  <object id="38" name="room6" x="302" y="340.667" width="140.667" height="148">
+   <properties>
+    <property name="radius" value="250"/>
+   </properties>
+  </object>
+  <object id="39" name="room7" x="450" y="340.667" width="240.667" height="149.333">
+   <properties>
+    <property name="radius" value="350"/>
+   </properties>
+  </object>
+  <object id="32" name="room2" x="279.333" y="159" width="94.667" height="172">
+   <properties>
+    <property name="radius" value="200"/>
+   </properties>
+  </object>
+  <object id="35" name="room3" x="384" y="157.666" width="174.667" height="173.334">
+   <properties>
+    <property name="radius" value="500"/>
+   </properties>
+  </object>
+  <object id="36" name="room4" x="568" y="155.666" width="120" height="174.667">
+   <properties>
+    <property name="radius" value="100"/>
    </properties>
   </object>
  </objectgroup>

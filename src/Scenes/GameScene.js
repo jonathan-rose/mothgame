@@ -42,9 +42,9 @@ export default class GameScene extends Phaser.Scene {
         console.log(roomsLayer);
 
         this.rooms = this.add.group();
-        roomsLayer.objects.forEach(t => {
+        roomsLayer.objects.forEach(o => {
             // this.add.rectangle(t.x, t.y, t.width, t.height, 0xff0000);
-            this.rooms.add(new Light(this, t.x, t.y, t.width, t.height, t.properties[0].value));
+            this.rooms.add(new Light(this, o.x, o.y, o.width, o.height, o.properties[0].value));
         })
 
         // Create window control objects
