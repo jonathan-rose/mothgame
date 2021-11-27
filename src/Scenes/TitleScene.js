@@ -17,9 +17,6 @@ export default class TitleScene extends Phaser.Scene {
 
         this.add.image(config.width/2, config.height/2, 'menuBG');
 
-        this.add.image(config.width*0.3, config.height/2, 'Logo');
-        //this.add.image(config.width*0.2, config.height*0.1, 'LogoTitle');
-
         // Game - Head to Rocket Select page
         this.gameButton = new Button(this, config.width*0.75, config.height/2 - 100, 'Button', 'ButtonPressed', 'Play', 'Game');
 
@@ -36,15 +33,6 @@ export default class TitleScene extends Phaser.Scene {
             this.model.bgMusicPlaying = true;
         }
 
-        this.map = this.make.tilemap({key: "menumap", tileWidth: 10, tileHeight: 10});
-        const tileset = this.map.addTilesetImage("lighttile", "house1");
-        const lightsLayer = this.map.createLayer("lights", tileset, 0, 0);
-         // Create pointlights from lights layer
-        this.lights = this.add.group();
-        lightsLayer.getTilesWithin(0, 0, 10, 10, {isNotEmpty: true}).forEach(t => {
-            // console.log(t);
-            this.lights.add(new Light(this, t.getCenterX(), t.getCenterY(), 200, 150, 200));
-        });
 
          // Moth sprite group (controls physics for all moths)
         this.moths = this.physics.add.group({
@@ -56,17 +44,18 @@ export default class TitleScene extends Phaser.Scene {
             bounceY: 0.75
         });
 
-        // Randomly add moths for now
+         // Randomly add moths for now
         for (var i = 0; i < 10; i++) {
-            this.moths.add(
-                new Moth(
-                    this,
-                    Phaser.Math.Between(20, 780),
-                    Phaser.Math.Between(50, 500),
-                    // 100,
-                    // 200
-                )
-            );
+            let m = new Moth(this, Phaser.Math.Between(20, 780), Phaser.Math.Between(50, 500));
+            m.moveTimer.remove();
+            m.moveTimer = this.time.addEvent({
+                delay: 330,
+                startAt: Phaser.Math.Between(0, 330),
+                callback: m.simpleMove,
+                callbackScope: m,
+                loop: true
+            });
+            this.moths.add(m);
         }
     }
 };

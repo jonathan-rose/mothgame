@@ -100,6 +100,15 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         }
     }
 
+    simpleMove() {
+        // Maintain some random movement for personality and unpredictability
+        let r = this.rand.angle();
+        // console.log(r);
+        this.body.setVelocityX(this.body.velocity.x + (Math.cos(r) * this.speed));
+        this.body.setVelocityY(this.body.velocity.y + (Math.sin(r) * this.speed));
+        this.setRotation(r + ((Phaser.Math.PI2)/4));
+    }
+
     destroy() {
         // Make sure we remove all timers first before calling the
         // parent `destroy` method to remove the sprite.
