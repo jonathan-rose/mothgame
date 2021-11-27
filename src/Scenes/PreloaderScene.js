@@ -78,19 +78,16 @@ export default class PreloaderScene extends Phaser.Scene {
         this.load.audio('bgMusic', ['assets/audio/devonshire-waltz-allegretto-by-kevin-macleod-from-filmmusic-io.mp3']);
 
         this.load.image('moth', 'assets/img/moth.png');
-        this.load.image('sky', 'assets/sky.png');
-        this.load.image('wall', 'assets/wall.png');
-        this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+        this.load.spritesheet('mothSprite', 'assets/img/mothspritesheet.png', { frameWidth: 32, frameHeight: 20 });
 
-        this.load.image('menuBG', 'assets/sky.png');
-        this.load.image('aboutBG', 'assets/sky.png');
-        this.load.image('deathScene', 'assets/deathScene.png');
+        this.load.image('menuBG', 'assets/img/TitlePageMattersSide.png');
+        this.load.image('aboutBG', 'assets/img/AboutBG.png');
+        this.load.image('optionsBG', 'assets/img/OptionsBG.png');
 
-        this.load.image('Button', 'assets/button1.png');
-        this.load.image('ButtonPressed', 'assets/button1selected.png');
-        this.load.image('box', 'assets/box.png');
-        this.load.image('checkedBox', 'assets/checked1.png');
-        this.load.image('Logo', 'assets/logoBigger.png');
+        this.load.image('Button', 'assets/img/button1.png');
+        this.load.image('ButtonPressed', 'assets/img/button1selected.png');
+        this.load.image('box', 'assets/img/lamp.png');
+        this.load.image('checkedBox', 'assets/img/lampChecked.png');
 
         this.load.image('houseBG', 'assets/img/house.png');
 

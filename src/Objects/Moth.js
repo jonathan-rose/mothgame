@@ -2,7 +2,7 @@ import 'phaser';
 
 export default class Moth extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y) {
-        super(scene, x, y, 'moth');
+        super(scene, x, y, 'mothSprite');
         this.scene = scene;
         this.x = x;
         this.y = y;
@@ -23,6 +23,14 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         scene.physics.add.existing(this);
 
         this.rand = new Phaser.Math.RandomDataGenerator();
+
+        this.scene.anims.create({
+            key: 'flap',
+            frames: this.anims.generateFrameNumbers('mothSprite'),
+            frameRate: 12
+        });
+
+        this.play({ key: 'flap', repeat: -1 });
     }
 
     move() {
@@ -92,6 +100,15 @@ export default class Moth extends Phaser.GameObjects.Sprite {
             var newAngle = Phaser.Math.Angle.RotateTo(this.rotation, this.rand.rotation(), this.rand.realInRange(0, 0.5));
             this.setRotation(newAngle);
         }
+    }
+
+    simpleMove() {
+        // Maintain some random movement for personality and unpredictability
+        let r = this.rand.angle();
+        // console.log(r);
+        this.body.setVelocityX(this.body.velocity.x + (Math.cos(r) * this.speed));
+        this.body.setVelocityY(this.body.velocity.y + (Math.sin(r) * this.speed));
+        this.setRotation(r + ((Phaser.Math.PI2)/4));
     }
 
     destroy() {
