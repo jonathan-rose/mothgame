@@ -330,13 +330,13 @@
 </data>
  </layer>
  <objectgroup id="6" name="RoomObjects">
-  <object id="1" name="room1" type="room" x="90" y="160.68" width="170" height="190">
+  <object id="1" name="room1" type="room" x="90" y="160" width="170" height="190">
    <properties>
     <property name="intensity" type="float" value="0.07"/>
     <property name="radius" type="int" value="200"/>
    </properties>
   </object>
-  <object id="2" name="room2" type="room" x="260" y="160" width="129.333" height="190">
+  <object id="2" name="room2" type="room" x="260" y="160" width="130" height="190">
    <properties>
     <property name="intensity" type="float" value="0.06"/>
     <property name="radius" type="int" value="100"/>
@@ -366,7 +366,7 @@
     <property name="radius" type="int" value="100"/>
    </properties>
   </object>
-  <object id="7" name="room7" type="room" x="460.21" y="360" width="250" height="200">
+  <object id="7" name="room7" type="room" x="460" y="360" width="250" height="200">
    <properties>
     <property name="intensity" type="float" value="0.08"/>
     <property name="radius" type="int" value="100"/>

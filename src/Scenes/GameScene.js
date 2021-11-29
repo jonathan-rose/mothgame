@@ -1,8 +1,8 @@
 import 'phaser';
 import { Game, Scene } from 'phaser';
 import Button from '../Objects/Button';
-import Light from '../Objects/Light';
 import Moth from '../Objects/Moth';
+import Room from '../Objects/Room';
 import Window from '../Objects/Window';
 
 var moth;
@@ -19,8 +19,6 @@ export default class GameScene extends Phaser.Scene {
     }
 
     create () {
-
-
          // Add background - add .setPipeline('Light2D') for Light Manager
         this.add.image(400, 300, 'houseBG');
 
@@ -44,14 +42,15 @@ export default class GameScene extends Phaser.Scene {
 
         this.rooms = this.add.group();
         roomsLayer.objects.forEach(o => {
+            console.log(o);
             // this.add.rectangle(t.x, t.y, t.width, t.height, 0xff0000);
             // Custom properties such as radius are found using an array search
             // These are set as property in Tiled custom properties
             // When new custom properties are added to a Tiled object, the order of properties in array can change
             // By searching for the property by name, we avoid problems if more custom properties are added in future
             var radius = o.properties.find(el => el.name === "radius").value;
-            var intensity = o.properties.find(el => el.name === "intensity").value;
-            this.rooms.add(new Light(this, o.x, o.y, o.width, o.height, radius, intensity));
+            var intensity = o.properties.find(el => el.name === "intensity").value;        
+            this.rooms.add(new Room(this, o.x, o.y, o.width, o.height, radius, intensity, o.name));
         })
 
         // Create window control objects
@@ -60,14 +59,7 @@ export default class GameScene extends Phaser.Scene {
             // console.log(t);
             this.windows.add(new Window(this, t));
         });
-        
-        // Create pointlights from lights layer
-        // this.lights = this.add.group();
-        // lightsLayer.getTilesWithin(0, 0, tileWidth, tileHeight, {isNotEmpty: true}).forEach(t => {
-        //     // console.log(t);
-        //     this.lights.add(new Light(this, t.getCenterX(), t.getCenterY(), 200, 150, 200));
-        // });
-
+       
         // Specify which tiles on each layer the player can collide with
         // Parameters refer to tile IDs found via Tiled editor
         wallLayer.setCollision(2);
@@ -109,10 +101,15 @@ export default class GameScene extends Phaser.Scene {
         this.physics.add.collider(this.moths, lightsLayer, function(moth, lightsLayer) {
             console.log("Ow...");
         });
-    
+
     }
     update ()
     {
+        // // console.log(game.input.mousePointer.x);
+        // // console.log(game.input.mousePointer.y);
+        // document.addEventListener('mousemove', (event) => {
+        //     console.log(`Mouse X: ${event.clientX}, Mouse Y: ${event.clientY}`);
+        // });
 
     }
 };

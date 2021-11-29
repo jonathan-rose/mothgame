@@ -87,7 +87,7 @@
                  "visible":true,
                  "width":170,
                  "x":90,
-                 "y":160.68
+                 "y":160
                 }, 
                 {
                  "height":190,
@@ -107,7 +107,7 @@
                  "rotation":0,
                  "type":"room",
                  "visible":true,
-                 "width":129.333333333333,
+                 "width":130,
                  "x":260,
                  "y":160
                 }, 
@@ -218,7 +218,7 @@
                  "type":"room",
                  "visible":true,
                  "width":250,
-                 "x":460.21,
+                 "x":460,
                  "y":360
                 }],
          "opacity":1,
