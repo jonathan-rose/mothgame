@@ -8,6 +8,8 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         this.y = y;
         this.speed = 80;
         this.attractionRadius = 200;
+        this.currentRoomRadius = 100;
+        this.currentRoomIntensity = 0.06;
         this.rand = new Phaser.Math.RandomDataGenerator();
         this.targetLayer = "lights";
         this.health = 150;
@@ -56,17 +58,17 @@ export default class Moth extends Phaser.GameObjects.Sprite {
             }
             particles.emitParticleAt(pointer.x, pointer.y);            
         });
-
-        var currentRoom = this.getCurrentRoom();
-        if (currentRoom === undefined) {
-            return;
-        } else {
-            this.currentRoomRadius = currentRoom.properties.find(el => el.name === "radius").value;
-            this.currentRoomIntensity = currentRoom.properties.find(el => el.name === "intensity").value;
-        }
     }
 
     move() {
+
+        this.currentRoom = this.getCurrentRoom();
+        if (this.currentRoom === undefined || this.currentRoom === null) {
+            return;
+        } else {
+            this.currentRoomRadius = this.currentRoom.properties.find(el => el.name === "radius").value;
+            this.currentRoomIntensity = this.currentRoom.properties.find(el => el.name === "intensity").value;
+        }
        
         // Update tint based on damage
         if (this.health <= 90 && this.health > 70) {
@@ -218,7 +220,6 @@ export default class Moth extends Phaser.GameObjects.Sprite {
 
     loseHealth(value) {
         this.health = this.health - (value + (this.currentRoomIntensity * 10));
-        console.log(this.health);
     }
 
     getCurrentRoom() {
