@@ -15,9 +15,13 @@ export default class Room extends Phaser.GameObjects.Rectangle {
         this.name = name;
         this.attenuation = 0.06;
 
+        // Add light image in location of lights as defined on tilemap
+        // putTileAtWorldXY used GIDs instead of tile IDs
+        // Use console.log(this.map.tilesets) to see tilesets and GIDs
         var map = this.scene.map;
         map.putTileAtWorldXY(6, this.x + (roomWidth / 2), this.y, true, this.scene.cameras.main, "lights");
 
+        // Create point light at midpoint of room ceiling
         var light = new Phaser.GameObjects.PointLight(
             this.scene, 
             this.x + (roomWidth / 2), 
@@ -28,21 +32,25 @@ export default class Room extends Phaser.GameObjects.Rectangle {
             this.attenuation,
             );
 
+        // Give pointlight unique name based on the room name
         light.name = name;
         
-        this.scene.add.existing(light);
-        // Can't work out how to add this to the scene while also getting mask to work
-        
-        // Add rectangle mask
+        // Add rectangle mask to hide light outside of room
         var graphics = new Phaser.GameObjects.Graphics(this.scene);
         var room = graphics.fillRect(this.x, this.y, this.width, this.height);
         var mask = room.createGeometryMask();
-        this.setMask(mask);
+        light.setMask(mask);
 
+        // Add masked light to scene
+        this.scene.add.existing(light);
+
+        // Set clickable region that matches the dimensions of the room
         // For some bizarre reason this only works if the X and Y of the rectangle are
         // set to 0, 0 and then offset by +65 pixels. I have NO idea why.
         var clickRegion = new Phaser.Geom.Rectangle(0 + 65, 0 + 65, this.width, this.height);
 
+        // Set the clickRegion to interactive
+        // Then find the pointlight in the scene that shares the room name
         this.setInteractive(clickRegion, Phaser.Geom.Rectangle.Contains);
         this.on('pointerdown', function () {
             console.log("Click " + this.name);
