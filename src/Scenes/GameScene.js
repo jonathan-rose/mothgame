@@ -76,7 +76,7 @@ export default class GameScene extends Phaser.Scene {
         });
 
         // Randomly add moths for now
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < 1; i++) {
             let m = new Moth(this, Phaser.Math.Between(140, 640), Phaser.Math.Between(220, 520));
             m.isEscaping = true;
             this.moths.add(m);

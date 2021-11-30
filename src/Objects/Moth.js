@@ -60,6 +60,11 @@ export default class Moth extends Phaser.GameObjects.Sprite {
 
     move() {
 
+        var currentRoom = this.getCurrentRoom();
+        var currentRoomRadius = currentRoom.properties.find(el => el.name === "radius").value;
+        var currentRoomIntensity = currentRoom.properties.find(el => el.name === "intensity").value;
+        console.log(currentRoomRadius, currentRoomIntensity)
+       
         // Update tint based on damage
         if (this.health <= 90 && this.health > 70) {
             this.setTint(0xFFBABA);
@@ -109,7 +114,6 @@ export default class Moth extends Phaser.GameObjects.Sprite {
                 var elementCenterY = (element.pixelY + (element.height / 2));
                 var distanceToElement = Phaser.Math.Distance.Between(this.x, this.y, elementCenterX, elementCenterY);
                 var angleToElementRad = Phaser.Math.Angle.Between(this.x, this.y, elementCenterX, elementCenterY);
-                // var angleToElementDeg = Phaser.Math.RadToDeg(angleToElementRad);
 
                 // As distance to light decreases, so does attractionFactor
                 // This is then later used to set the sprites bounce
@@ -135,8 +139,8 @@ export default class Moth extends Phaser.GameObjects.Sprite {
             this.setRotation(nearbyLightsData[0][1] + ((Phaser.Math.PI2)/4));
 
             // Make moth move in direction of nearest light
-            this.body.setVelocityX(this.body.velocity.x + (Math.cos(nearbyLightsData[0][1]) * this.speed));
-            this.body.setVelocityY(this.body.velocity.y + (Math.sin(nearbyLightsData[0][1]) * this.speed));
+            this.body.setVelocityX(this.body.velocity.x + (Math.cos(nearbyLightsData[0][1]) * (this.speed * (1 + currentRoomIntensity))));
+            this.body.setVelocityY(this.body.velocity.y + (Math.sin(nearbyLightsData[0][1]) * (this.speed * (1 + currentRoomIntensity))));
             // console.log(attractionFactor);
             this.body.setBounce(attractionFactor);
         } else {
@@ -211,5 +215,19 @@ export default class Moth extends Phaser.GameObjects.Sprite {
 
     loseHealth(value) {
         this.health = this.health - value;
+    }
+
+    getCurrentRoom() {
+        var map = this.scene.map;
+        var mothX = this.x;
+        var mothY = this.y;
+        var currentRoom = map.findObject("RoomObjects", function(object) {
+            var room = new Phaser.Geom.Rectangle(object.x, object.y, object.width, object.height);
+            var mothRoom = Phaser.Geom.Rectangle.Contains(room, mothX, mothY);
+            if (mothRoom == true) {
+                return object;
+            }
+        });
+        return currentRoom;
     }
 }
