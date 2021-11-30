@@ -27,12 +27,10 @@ export default class TitleScene extends Phaser.Scene {
         this.aboutButton = new Button(this, config.width*0.75, config.height/2 + 100, 'Button', 'ButtonPressed', 'About', 'About');
 
         this.model = this.sys.game.globals.model;
-        this.sys.game.globals.bgMusic = this.sound.add('bgMusic', { volume: 0.5, loop: true });
         if (this.model.musicOn === true && this.model.bgMusicPlaying === false) {
             this.sys.game.globals.bgMusic.play();
             this.model.bgMusicPlaying = true;
         }
-
 
          // Moth sprite group (controls physics for all moths)
         this.moths = this.physics.add.group({

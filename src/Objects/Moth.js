@@ -12,6 +12,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         this.targetLayer = "lights";
         this.health = 150;
         this.isEscaping = false;
+        this.setInteractive();
 
         this.moveTimer = scene.time.addEvent({
             delay: 330,
@@ -33,6 +34,28 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         });
 
         this.play({ key: 'flap', repeat: -1 });
+
+        var particles = scene.add.particles('dust');
+        particles.createEmitter({
+            angle: { min: 240, max: 300 },
+            speed: { min: 100, max: 250 },
+            quantity: { min: 20, max: 40 },
+            lifespan: 500,
+            alpha: { start: 1, end: 0 },
+            rotate: { start: 0, end: 360, ease: 'Back.easeOut' },
+            gravityY: 800,
+            on: false
+        });
+
+        this.on('pointerdown', function (pointer) {
+            scene.model = scene.sys.game.globals.model;
+            if (scene.model.soundOn === true) {
+                let sounds = ['pah1', 'pah2', 'pah3'];
+                let randSound = sounds[Math.floor(Math.random()*sounds.length)]
+                scene.game.registry.get(randSound).play();
+            }
+            particles.emitParticleAt(pointer.x, pointer.y);            
+        });
     }
 
     move() {

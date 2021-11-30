@@ -76,9 +76,13 @@ export default class PreloaderScene extends Phaser.Scene {
         // load assets needed in our game
 
         this.load.audio('bgMusic', ['assets/audio/devonshire-waltz-allegretto-by-kevin-macleod-from-filmmusic-io.mp3']);
+        this.load.audio('pah1', ['assets/audio/sfx/pah1.mp3']);
+        this.load.audio('pah2', ['assets/audio/sfx/pah2.mp3']);
+        this.load.audio('pah3', ['assets/audio/sfx/pah3.mp3']);
 
         this.load.image('moth', 'assets/img/moth.png');
         this.load.spritesheet('mothSprite', 'assets/img/mothspritesheet.png', { frameWidth: 32, frameHeight: 20 });
+        this.load.image('dust', 'assets/img/dustParticle.png')
 
         this.load.image('menuBG', 'assets/img/TitlePageMattersSide.png');
         this.load.image('aboutBG', 'assets/img/AboutBG.png');
@@ -98,6 +102,10 @@ export default class PreloaderScene extends Phaser.Scene {
             loadingText.destroy();
             percentText.destroy();
             assetText.destroy();
+            this.sys.game.globals.bgMusic = this.sound.add('bgMusic', { volume: 0.5, loop: true });
+            this.game.registry.set('pah1', this.sound.add('pah1', { volume: 0.5 }));
+            this.game.registry.set('pah2', this.sound.add('pah2', { volume: 0.5 }));
+            this.game.registry.set('pah3', this.sound.add('pah3', { volume: 0.5 }));
             this.ready();
         }.bind(this));
 
