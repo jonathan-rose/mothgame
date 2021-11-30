@@ -86,7 +86,7 @@ export default class GameScene extends Phaser.Scene {
         this.physics.add.collider(this.moths, wallLayer);
         this.physics.add.collider(this.moths, this.windows, function(m, w) {
             if (m.isEscaping && w.isOpen) {
-                console.log("Moth escapes!");
+                // console.log("Moth escapes!");
                 m.escape();
             }
         });
