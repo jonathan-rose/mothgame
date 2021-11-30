@@ -10,6 +10,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         this.attractionRadius = 200;
         this.rand = new Phaser.Math.RandomDataGenerator();
         this.targetLayer = "lights";
+        this.health = 100;
         this.isEscaping = false;
 
         this.moveTimer = scene.time.addEvent({
@@ -35,7 +36,6 @@ export default class Moth extends Phaser.GameObjects.Sprite {
     }
 
     move() {
-
         // Maintain some random movement for personality and unpredictability
         let r = this.rand.angle();
         // console.log(r);
@@ -109,6 +109,10 @@ export default class Moth extends Phaser.GameObjects.Sprite {
             var newAngle = Phaser.Math.Angle.RotateTo(this.rotation, this.rand.rotation(), this.rand.realInRange(0, 0.5));
             this.setRotation(newAngle);
         }
+
+        if (this.health <= 0) {
+            this.destroy();
+        }
     }
 
     simpleMove() {
@@ -144,5 +148,13 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         // parent `destroy` method to remove the sprite.
         this.moveTimer.remove();
         super.destroy();
+    }
+
+    gainHealth(value) {
+        this.health = this.health + value;
+    }
+
+    loseHealth(value) {
+        this.health = this.health - value;        
     }
 }
