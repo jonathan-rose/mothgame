@@ -75,12 +75,12 @@
                         {
                          "name":"intensity",
                          "type":"float",
-                         "value":0.07
+                         "value":0.2
                         }, 
                         {
                          "name":"radius",
                          "type":"int",
-                         "value":200
+                         "value":170
                         }],
                  "rotation":0,
                  "type":"room",
@@ -97,12 +97,12 @@
                         {
                          "name":"intensity",
                          "type":"float",
-                         "value":0.06
+                         "value":0.2
                         }, 
                         {
                          "name":"radius",
                          "type":"int",
-                         "value":100
+                         "value":130
                         }],
                  "rotation":0,
                  "type":"room",
@@ -119,12 +119,12 @@
                         {
                          "name":"intensity",
                          "type":"float",
-                         "value":0.07
+                         "value":0.2
                         }, 
                         {
                          "name":"radius",
                          "type":"int",
-                         "value":200
+                         "value":210
                         }],
                  "rotation":0,
                  "type":"room",
@@ -141,12 +141,12 @@
                         {
                          "name":"intensity",
                          "type":"float",
-                         "value":0.06
+                         "value":0.2
                         }, 
                         {
                          "name":"radius",
                          "type":"int",
-                         "value":50
+                         "value":110
                         }],
                  "rotation":0,
                  "type":"room",
@@ -163,12 +163,12 @@
                         {
                          "name":"intensity",
                          "type":"float",
-                         "value":0.06
+                         "value":0.2
                         }, 
                         {
                          "name":"radius",
                          "type":"int",
-                         "value":100
+                         "value":200
                         }],
                  "rotation":0,
                  "type":"room",
@@ -185,12 +185,12 @@
                         {
                          "name":"intensity",
                          "type":"float",
-                         "value":0.06
+                         "value":0.3
                         }, 
                         {
                          "name":"radius",
                          "type":"int",
-                         "value":100
+                         "value":170
                         }],
                  "rotation":0,
                  "type":"room",
@@ -207,12 +207,12 @@
                         {
                          "name":"intensity",
                          "type":"float",
-                         "value":0.08
+                         "value":0.2
                         }, 
                         {
                          "name":"radius",
                          "type":"int",
-                         "value":100
+                         "value":200
                         }],
                  "rotation":0,
                  "type":"room",
