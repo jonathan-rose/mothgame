@@ -10,7 +10,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         this.attractionRadius = 200;
         this.rand = new Phaser.Math.RandomDataGenerator();
         this.targetLayer = "lights";
-        this.health = 100;
+        this.health = 150;
         this.isEscaping = false;
 
         this.moveTimer = scene.time.addEvent({
@@ -36,6 +36,18 @@ export default class Moth extends Phaser.GameObjects.Sprite {
     }
 
     move() {
+
+        // Update tint based on damage
+        if (this.health <= 90 && this.health > 70) {
+            this.setTint(0xFFBABA);
+        } else if (this.health <= 70 && this.health > 50) {
+            this.setTint(0xFF6666);
+        } else if (this.health <= 50 && this.health > 30) {
+            this.setTint(0xFF4A4A);
+        } else if (this.health <= 30) {
+            this.setTint(0xFF0000);
+        }
+      
         // Maintain some random movement for personality and unpredictability
         let r = this.rand.angle();
         // console.log(r);
@@ -155,6 +167,6 @@ export default class Moth extends Phaser.GameObjects.Sprite {
     }
 
     loseHealth(value) {
-        this.health = this.health - value;        
+        this.health = this.health - value;
     }
 }

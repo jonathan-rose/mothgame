@@ -96,9 +96,7 @@ export default class GameScene extends Phaser.Scene {
         });
 
         this.physics.add.collider(this.moths, lightsLayer, function(moth, lightsLayer) {
-            console.log("Ow...");
             moth.loseHealth(5);
-            console.log(moth.health);
         });
 
         // this.input.on('pointerdown', function(p) {console.log(p.x, p.y);}); // Debugging, print mouse pos on click:
