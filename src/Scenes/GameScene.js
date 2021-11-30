@@ -49,7 +49,7 @@ export default class GameScene extends Phaser.Scene {
             // When new custom properties are added to a Tiled object, the order of properties in array can change
             // By searching for the property by name, we avoid problems if more custom properties are added in future
             var radius = o.properties.find(el => el.name === "radius").value;
-            var intensity = o.properties.find(el => el.name === "intensity").value;        
+            var intensity = o.properties.find(el => el.name === "intensity").value;  
             this.rooms.add(new Room(this, o.x, o.y, o.width, o.height, radius, intensity, o.name));
         })
 

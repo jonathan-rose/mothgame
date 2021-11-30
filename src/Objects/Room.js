@@ -25,24 +25,29 @@ export default class Room extends Phaser.GameObjects.Rectangle {
             0xffffff,
             this.radius,
             this.intensity,
-            this.attenuation
+            this.attenuation,
             );
+
+        light.name = name;
         
         this.scene.add.existing(light);
         // Can't work out how to add this to the scene while also getting mask to work
-
+        
         // Add rectangle mask
         var graphics = new Phaser.GameObjects.Graphics(this.scene);
         var room = graphics.fillRect(this.x, this.y, this.width, this.height);
         var mask = room.createGeometryMask();
         this.setMask(mask);
 
-        // This just doesn't work at all, it's utterly baffling
-        var clickRegion = new Phaser.Geom.Rectangle(0, 0, this.width, this.height);
+        // For some bizarre reason this only works if the X and Y of the rectangle are
+        // set to 0, 0 and then offset by +65 pixels. I have NO idea why.
+        var clickRegion = new Phaser.Geom.Rectangle(0 + 65, 0 + 65, this.width, this.height);
 
         this.setInteractive(clickRegion, Phaser.Geom.Rectangle.Contains);
         this.on('pointerdown', function () {
             console.log("Click " + this.name);
+            var targetLight = this.scene.children.list.find(el => el.name === this.name);
+            targetLight.visible = !targetLight.visible;
         });
 
         this.scene.add.existing(this);
