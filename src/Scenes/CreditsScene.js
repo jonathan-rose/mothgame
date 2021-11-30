@@ -9,6 +9,8 @@ export default class CreditsScene extends Phaser.Scene {
         var config = this.game.config;
         this.add.image(config.width/2, config.height/2, 'creditsBG');
 
+        this.scoreText = this.add.text(0, 0, 'Score: ' + this.sys.game.globals.model.highscore, { fontSize: '26px', fill: '#fff' });
+
         this.creditsText = this.add.text(0, 0, 'Lament for the Moths – Tennessee Williams', { fontSize: '26px', fill: '#fff' });
         this.lamentStanzas = [
             this.add.text(100, config.height, 'A plague has stricken the moths, the moths are dying,\n\
@@ -39,12 +41,17 @@ here in a world by mammoth figures haunted!', { fontSize: '18px', fill: '#fff' }
             this.creditsText,
             this.zone
         );
+        Phaser.Display.Align.In.Center(
+            this.scoreText,
+            this.zone
+        );
+        this.scoreText.setY(config.height/3);
 
         this.creditsTween = this.tweens.add({
-            targets: this.creditsText,
-            y: -100,
+            targets: [this.creditsText, this.scoreText],
+            y: "-=500",
             ease: 'linear',
-            duration: 3000,
+            duration: 5000,
             delay: 1000,
             onComplete: this.destroy
         });

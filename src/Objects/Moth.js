@@ -82,7 +82,6 @@ export default class Moth extends Phaser.GameObjects.Sprite {
 
         // Maintain some random movement for personality and unpredictability
         let r = this.rand.angle();
-        // console.log(r);
         this.body.setVelocityX(this.body.velocity.x + (Math.cos(r) * this.speed));
         this.body.setVelocityY(this.body.velocity.y + (Math.sin(r) * this.speed));
 
@@ -123,7 +122,6 @@ export default class Moth extends Phaser.GameObjects.Sprite {
                 // This is then later used to set the sprites bounce
                 // Result is less bounce when moth is closer to light
                 attractionFactor = ((1 - (10 / distanceToElement)) * 0.75);
-                // console.log(distanceToElement, attractionFactor);
 
                 // Add position and angle of current light to nearbyLightsData array
                 // (Result is an array of arrays)
@@ -145,7 +143,6 @@ export default class Moth extends Phaser.GameObjects.Sprite {
             // Make moth move in direction of nearest light
             this.body.setVelocityX(this.body.velocity.x + (Math.cos(nearbyLightsData[0][1]) * (this.speed * (1 + (this.currentRoomIntensity * 2 )))));
             this.body.setVelocityY(this.body.velocity.y + (Math.sin(nearbyLightsData[0][1]) * (this.speed * (1 + (this.currentRoomIntensity * 2 )))));
-            // console.log(attractionFactor);
             this.body.setBounce(attractionFactor);
         } else {
             var newAngle = Phaser.Math.Angle.RotateTo(this.rotation, this.rand.rotation(), this.rand.realInRange(0, 0.5));
@@ -153,6 +150,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         }
 
         if (this.health <= 0) {
+            this.scene.deadCount++;
             if (this.scene.sys.game.globals.model.soundOn === true) {
                 let sounds = ['death1', 'death2', 'death3'];
                 let randSound = sounds[Math.floor(Math.random()*sounds.length)];
@@ -186,7 +184,6 @@ export default class Moth extends Phaser.GameObjects.Sprite {
     simpleMove() {
         // Maintain some random movement for personality and unpredictability
         let r = this.rand.angle();
-        // console.log(r);
         this.body.setVelocityX(this.body.velocity.x + (Math.cos(r) * this.speed));
         this.body.setVelocityY(this.body.velocity.y + (Math.sin(r) * this.speed));
         this.setRotation(r + ((Phaser.Math.PI2)/4));
@@ -207,6 +204,11 @@ export default class Moth extends Phaser.GameObjects.Sprite {
             onComplete: this.destroy,
             onCompleteScope: this
         });
+        if (this.scene.sys.game.globals.model.soundOn === true) {
+            let sounds = ['escape1', 'escape2'];
+            let randSound = sounds[Math.floor(Math.random()*sounds.length)];
+            this.scene.game.registry.get(randSound).play();
+        }
         // Don't want to add more of these tweens next frame.
         this.isEscaping = false;
     }

@@ -5,8 +5,6 @@ import Moth from '../Objects/Moth';
 import Room from '../Objects/Room';
 import Window from '../Objects/Window';
 
-var moth;
-
 export default class GameScene extends Phaser.Scene {
     constructor () {
         super('Game');
@@ -20,6 +18,11 @@ export default class GameScene extends Phaser.Scene {
 
     create () {
         this.playing = true;
+        this.escapeCount = 0;
+        this.deadCount = 0;
+
+        var config = this.game.config;
+        this.model = this.sys.game.globals.model;
 
          // Add background - add .setPipeline('Light2D') for Light Manager
         this.add.image(400, 300, 'houseBG');
@@ -86,9 +89,10 @@ export default class GameScene extends Phaser.Scene {
 
         // Add colliders between moths and hazards layer
         this.physics.add.collider(this.moths, wallLayer);
+        let context = this;
         this.physics.add.collider(this.moths, this.windows, function(m, w) {
             if (m.isEscaping && w.isOpen) {
-                // console.log("Moth escapes!");
+                context.escapeCount++;
                 m.escape();
             }
         });
@@ -101,15 +105,39 @@ export default class GameScene extends Phaser.Scene {
             moth.loseHealth(5);
         });
 
-        console.log(this.moths);
-        console.log(this.moths.children.entries.length);
+        this.mothEscapedText = this.add.text(
+            config.width * 0.02,
+            config.height * 0.04,
+            "Moths escaped: 0",
+            {align: 'center',
+             fontSize: '24px',
+             fill: '#49D49D'}
+        );
 
-        // this.input.on('pointerdown', function(p) {console.log(p.x, p.y);}); // Debugging, print mouse pos on click:
+        this.mothDeadText = this.add.text(
+            config.width * 0.02,
+            config.height * 0.09,
+            "Moths killed: 0",
+            {align: 'center',
+             fontSize: '24px',
+             fill: '#EF233C'}
+        );
+
+        this.mothRemainingText = this.add.text(
+            config.width * 0.6,
+            config.height * 0.04,
+            "Moths remaining: 0",
+            {align: 'center',
+             fontSize: '24px',
+             fill: '#FFF'}
+        );
     }
 
     update() {
+        this.mothEscapedText.setText("Moths escaped: " + this.escapeCount);
+        this.mothDeadText.setText("Moths killed: " + this.deadCount);
+        this.mothRemainingText.setText("Moths remaining: " + this.moths.children.entries.length);
         if (this.playing && this.noMothsRemaining()) {
-            console.log("ENDING");
             this.playing = false;
             this.time.addEvent({
                 delay: 1000,
@@ -124,6 +152,7 @@ export default class GameScene extends Phaser.Scene {
     }
 
     endGame() {
+        this.model.highscore = this.escapeCount - this.deadCount;
         this.scene.start('Credits');
     }
 };

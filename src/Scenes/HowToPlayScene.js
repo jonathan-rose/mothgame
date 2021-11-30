@@ -13,7 +13,7 @@ export default class HowToPlayScene extends Phaser.Scene {
         this.model = this.sys.game.globals.model;
         this.add.image(config.width/2, config.height/2, 'HowToPlayBG');
 
-        this.menuButton = new Button(this, config.width/4, 520, 'Button', 'ButtonPressed', 'Menu', 'Title');
+        this.menuButton = new Button(this, config.width/4, 525, 'Button', 'ButtonPressed', 'Menu', 'Title');
         this.gameButton = new Button(this, config.width - config.width/4, 525, 'Button', 'ButtonPressed', 'Play', 'Game');
 
           // Moth sprite group (controls physics for all moths)
