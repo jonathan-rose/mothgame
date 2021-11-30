@@ -79,6 +79,9 @@ export default class PreloaderScene extends Phaser.Scene {
         this.load.audio('pah1', ['assets/audio/sfx/pah1.mp3']);
         this.load.audio('pah2', ['assets/audio/sfx/pah2.mp3']);
         this.load.audio('pah3', ['assets/audio/sfx/pah3.mp3']);
+        this.load.audio('death1', ['assets/audio/sfx/death1.mp3']);
+        this.load.audio('death2', ['assets/audio/sfx/death2.mp3']);
+        this.load.audio('death3', ['assets/audio/sfx/death3.mp3']);
 
         this.load.image('moth', 'assets/img/moth.png');
         this.load.spritesheet('mothSprite', 'assets/img/mothspritesheet.png', { frameWidth: 32, frameHeight: 20 });
@@ -106,6 +109,9 @@ export default class PreloaderScene extends Phaser.Scene {
             this.game.registry.set('pah1', this.sound.add('pah1', { volume: 0.5 }));
             this.game.registry.set('pah2', this.sound.add('pah2', { volume: 0.5 }));
             this.game.registry.set('pah3', this.sound.add('pah3', { volume: 0.5 }));
+            this.game.registry.set('death1', this.sound.add('death1', { volume: 0.5 }));
+            this.game.registry.set('death2', this.sound.add('death2', { volume: 0.5 }));
+            this.game.registry.set('death3', this.sound.add('death3', { volume: 0.5 }));
             this.ready();
         }.bind(this));
 
