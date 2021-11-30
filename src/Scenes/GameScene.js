@@ -40,29 +40,29 @@ export default class GameScene extends Phaser.Scene {
 
         this.rooms = this.add.group();
         roomsLayer.objects.forEach(o => {
-            console.log(o);
             // this.add.rectangle(t.x, t.y, t.width, t.height, 0xff0000);
             // Custom properties such as radius are found using an array search
             // These are set as property in Tiled custom properties
             // When new custom properties are added to a Tiled object, the order of properties in array can change
             // By searching for the property by name, we avoid problems if more custom properties are added in future
             var radius = o.properties.find(el => el.name === "radius").value;
-            var intensity = o.properties.find(el => el.name === "intensity").value;  
+            var intensity = o.properties.find(el => el.name === "intensity").value;
             this.rooms.add(new Room(this, o.x, o.y, o.width, o.height, radius, intensity, o.name));
-        })
+        });
 
         // Create window control objects
-        this.windows = this.add.group();
-        windowsLayer.getTilesWithin(0, 0, tileWidth, tileHeight, {isNotEmpty: true}).forEach(t => {
-            // console.log(t);
+        this.windows = this.physics.add.group({
+            allowGravity: false,
+            immovable: true
+        });
+        windowsLayer.getTilesWithin(0, 0, this.map.width, this.map.height, {isNotEmpty: true}).forEach(t => {
             this.windows.add(new Window(this, t));
         });
-       
+
         // Specify which tiles on each layer the player can collide with
         // Parameters refer to tile GIDs
         // Use console.log(this.map.tilesets) to see tilesets and GIDs
         wallLayer.setCollision(2);
-        windowsLayer.setCollision(3);
         hazardsLayer.setCollision(4);
         lightsLayer.setCollision(6);
 
@@ -76,23 +76,19 @@ export default class GameScene extends Phaser.Scene {
         });
 
         // Randomly add moths for now
-        for (var i = 0; i < 1; i++) {
-            this.moths.add(
-                new Moth(
-                    this,
-                    // Phaser.Math.Between(20, 780),
-                    // Phaser.Math.Between(50, 500),
-                    100,
-                    200
-                )
-            );
+        for (var i = 0; i < 4; i++) {
+            let m = new Moth(this, Phaser.Math.Between(140, 640), Phaser.Math.Between(220, 520));
+            m.isEscaping = true;
+            this.moths.add(m);
         }
 
         // Add colliders between moths and hazards layer
         this.physics.add.collider(this.moths, wallLayer);
-
-        this.physics.add.collider(this.moths, windowsLayer, function(moth, windowsLayer) {
-
+        this.physics.add.collider(this.moths, this.windows, function(m, w) {
+            if (m.isEscaping && w.isOpen) {
+                console.log("Moth escapes!");
+                m.escape();
+            }
         });
 
         this.physics.add.collider(this.moths, hazardsLayer, function(moth, hazardsLayer) {
@@ -105,9 +101,6 @@ export default class GameScene extends Phaser.Scene {
             console.log(moth.health);
         });
 
-    }
-    update ()
-    {
-
+        // this.input.on('pointerdown', function(p) {console.log(p.x, p.y);}); // Debugging, print mouse pos on click:
     }
 };
