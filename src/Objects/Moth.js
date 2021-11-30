@@ -55,14 +55,17 @@ export default class Moth extends Phaser.GameObjects.Sprite {
             }
             particles.emitParticleAt(pointer.x, pointer.y);            
         });
+
+        var currentRoom = this.getCurrentRoom();
+        if (currentRoom === undefined) {
+            return;
+        } else {
+            this.currentRoomRadius = currentRoom.properties.find(el => el.name === "radius").value;
+            this.currentRoomIntensity = currentRoom.properties.find(el => el.name === "intensity").value;
+        }
     }
 
     move() {
-
-        var currentRoom = this.getCurrentRoom();
-        var currentRoomRadius = currentRoom.properties.find(el => el.name === "radius").value;
-        var currentRoomIntensity = currentRoom.properties.find(el => el.name === "intensity").value;
-        console.log(currentRoomRadius, currentRoomIntensity)
        
         // Update tint based on damage
         if (this.health <= 90 && this.health > 70) {
@@ -138,8 +141,8 @@ export default class Moth extends Phaser.GameObjects.Sprite {
             this.setRotation(nearbyLightsData[0][1] + ((Phaser.Math.PI2)/4));
 
             // Make moth move in direction of nearest light
-            this.body.setVelocityX(this.body.velocity.x + (Math.cos(nearbyLightsData[0][1]) * (this.speed * (1 + currentRoomIntensity))));
-            this.body.setVelocityY(this.body.velocity.y + (Math.sin(nearbyLightsData[0][1]) * (this.speed * (1 + currentRoomIntensity))));
+            this.body.setVelocityX(this.body.velocity.x + (Math.cos(nearbyLightsData[0][1]) * (this.speed * (1 + (this.currentRoomIntensity * 2 )))));
+            this.body.setVelocityY(this.body.velocity.y + (Math.sin(nearbyLightsData[0][1]) * (this.speed * (1 + (this.currentRoomIntensity * 2 )))));
             // console.log(attractionFactor);
             this.body.setBounce(attractionFactor);
         } else {
@@ -218,20 +221,25 @@ export default class Moth extends Phaser.GameObjects.Sprite {
     }
 
     loseHealth(value) {
-        this.health = this.health - value;
+        this.health = this.health - (value + (this.currentRoomIntensity * 10));
+        console.log(this.health);
     }
 
     getCurrentRoom() {
-        var map = this.scene.map;
-        var mothX = this.x;
-        var mothY = this.y;
-        var currentRoom = map.findObject("RoomObjects", function(object) {
-            var room = new Phaser.Geom.Rectangle(object.x, object.y, object.width, object.height);
-            var mothRoom = Phaser.Geom.Rectangle.Contains(room, mothX, mothY);
-            if (mothRoom == true) {
-                return object;
-            }
-        });
-        return currentRoom;
+        if (this.scene.scene.key != "Game") {
+            return;
+        } else {
+            var map = this.scene.map;
+            var mothX = this.x;
+            var mothY = this.y;
+            var currentRoom = map.findObject("RoomObjects", function(object) {
+                var room = new Phaser.Geom.Rectangle(object.x, object.y, object.width, object.height);
+                var mothRoom = Phaser.Geom.Rectangle.Contains(room, mothX, mothY);
+                if (mothRoom == true) {
+                    return object;
+                }
+            });
+            return currentRoom;
+        }
     }
 }
