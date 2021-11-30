@@ -19,6 +19,8 @@ export default class GameScene extends Phaser.Scene {
     }
 
     create () {
+        this.playing = true;
+
          // Add background - add .setPipeline('Light2D') for Light Manager
         this.add.image(400, 300, 'houseBG');
 
@@ -76,7 +78,7 @@ export default class GameScene extends Phaser.Scene {
         });
 
         // Randomly add moths for now
-        for (var i = 0; i < 1; i++) {
+        for (var i = 0; i < 4; i++) {
             let m = new Moth(this, Phaser.Math.Between(140, 640), Phaser.Math.Between(220, 520));
             m.isEscaping = true;
             this.moths.add(m);
@@ -99,6 +101,29 @@ export default class GameScene extends Phaser.Scene {
             moth.loseHealth(5);
         });
 
+        console.log(this.moths);
+        console.log(this.moths.children.entries.length);
+
         // this.input.on('pointerdown', function(p) {console.log(p.x, p.y);}); // Debugging, print mouse pos on click:
+    }
+
+    update() {
+        if (this.playing && this.noMothsRemaining()) {
+            console.log("ENDING");
+            this.playing = false;
+            this.time.addEvent({
+                delay: 1000,
+                callback: this.endGame,
+                callbackScope: this
+            });
+        }
+    }
+
+    noMothsRemaining() {
+        return this.moths.children.entries.length == 0;
+    }
+
+    endGame() {
+        this.scene.start('Credits');
     }
 };

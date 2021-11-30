@@ -85,12 +85,13 @@ export default class PreloaderScene extends Phaser.Scene {
 
         this.load.image('moth', 'assets/img/moth.png');
         this.load.spritesheet('mothSprite', 'assets/img/mothspritesheet.png', { frameWidth: 32, frameHeight: 20 });
-        this.load.image('dust', 'assets/img/dustParticle.png')
+        this.load.image('dust', 'assets/img/dustParticle.png');
 
         this.load.image('menuBG', 'assets/img/TitlePageMattersSide.png');
         this.load.image('aboutBG', 'assets/img/AboutBG.png');
         this.load.image('optionsBG', 'assets/img/OptionsBG.png');
         this.load.image('HowToPlayBG', 'assets/img/HowToPlayBG.png');
+        this.load.image('creditsBG', 'assets/img/noMiddleStarsBG.png');
 
         this.load.image('Button', 'assets/img/button1.png');
         this.load.image('ButtonPressed', 'assets/img/button1selected.png');

@@ -52,10 +52,10 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         this.on('pointerdown', function (pointer) {
             if (scene.sys.game.globals.model.soundOn === true) {
                 let sounds = ['pah1', 'pah2', 'pah3'];
-                let randSound = sounds[Math.floor(Math.random()*sounds.length)]
+                let randSound = sounds[Math.floor(Math.random()*sounds.length)];
                 scene.game.registry.get(randSound).play();
             }
-            particles.emitParticleAt(pointer.x, pointer.y);            
+            particles.emitParticleAt(pointer.x, pointer.y);
         });
     }
 
@@ -68,7 +68,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
             this.currentRoomRadius = this.currentRoom.properties.find(el => el.name === "radius").value;
             this.currentRoomIntensity = this.currentRoom.properties.find(el => el.name === "intensity").value;
         }
-       
+
         // Update tint based on damage
         if (this.health <= 90 && this.health > 70) {
             this.setTint(0xFFBABA);
@@ -79,7 +79,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         } else if (this.health <= 30) {
             this.setTint(0xFF0000);
         }
-      
+
         // Maintain some random movement for personality and unpredictability
         let r = this.rand.angle();
         // console.log(r);
@@ -155,7 +155,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         if (this.health <= 0) {
             if (this.scene.sys.game.globals.model.soundOn === true) {
                 let sounds = ['death1', 'death2', 'death3'];
-                let randSound = sounds[Math.floor(Math.random()*sounds.length)]
+                let randSound = sounds[Math.floor(Math.random()*sounds.length)];
                 this.scene.game.registry.get(randSound).play();
             }
             this.destroy();

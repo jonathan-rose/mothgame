@@ -5,44 +5,56 @@ export default class CreditsScene extends Phaser.Scene {
         super('Credits');
     }
 
-
     create () {
         var config = this.game.config;
-        this.creditsText = this.add.text(0, 0, 'Credits', { fontSize: '32px', fill: '#fff' });
-        this.madeByText = this.add.text(0, 0, 'Created By: XXXX XXXXXX and XXXXXX XXXXXX', { fontSize: '26px', fill: '#fff' });
+        this.add.image(config.width/2, config.height/2, 'creditsBG');
+
+        this.creditsText = this.add.text(0, 0, 'Lament for the Moths – Tennessee Williams', { fontSize: '26px', fill: '#fff' });
+        this.lamentStanzas = [
+            this.add.text(100, config.height, 'A plague has stricken the moths, the moths are dying,\n\
+their bodies are flakes of bronze on the carpet lying.\n\
+Enemies of the delicate everywhere\n\
+have breathed a pestilent mist into the air.', { fontSize: '18px', fill: '#fff' }),
+            this.add.text(100, config.height + 200, 'Lament for the velvety moths, for the moths were lovely.\n\
+Often their tender thoughts, for they thought of me,\n\
+eased the neurotic ills that haunt the day.\n\
+Now an invisible evil takes them away.', { fontSize: '18px', fill: '#fff' }),
+            this.add.text(100, config.height + 400, 'I move through the shadowy rooms, I cannot be still,\n\
+I must find where the treacherous killer is concealed.\n\
+Feverishly I search and still they fall\n\
+as fragile as ashes broken against a wall.', { fontSize: '18px', fill: '#fff' }),
+            this.add.text(100, config.height + 600, 'Now that the plague has taken the moths away,\n\
+who will be cooler than curtains against the day,\n\
+who will come early and softly to ease my lot\n\
+as I move through the shadowy rooms with a troubled heart?', { fontSize: '18px', fill: '#fff' }),
+            this.add.text(100, config.height + 800, 'Give them, O mother of moths and mother of men,\n\
+strength to enter the heavy world again,\n\
+for delicate were the moths and badly wanted\n\
+here in a world by mammoth figures haunted!', { fontSize: '18px', fill: '#fff' })
+        ];
+
         this.zone = this.add.zone(config.width/2, config.height/2, config.width, config.height);
 
         Phaser.Display.Align.In.Center(
             this.creditsText,
             this.zone
-            );
-
-        Phaser.Display.Align.In.Center(
-            this.madeByText,
-            this.zone
-            );
-
-        this.madeByText.setY(1000);
+        );
 
         this.creditsTween = this.tweens.add({
             targets: this.creditsText,
             y: -100,
-            ease: 'Power1',
+            ease: 'linear',
             duration: 3000,
             delay: 1000,
-            onComplete: function () {
-                this.destroy;
-            }
+            onComplete: this.destroy
         });
 
         this.madeByTween = this.tweens.add({
-            targets: this.madeByText,
-            y: -300,
-            ease: 'Power1',
-            duration: 8000,
-            delay: 1000,
+            targets: this.lamentStanzas,
+            y: "-=" + (config.height + 600),
+            ease: 'linear',
+            duration: 48000,
             onComplete: function () {
-                this.madeByTween.destroy;
                 this.scene.start('Title');
             }.bind(this)
         });
