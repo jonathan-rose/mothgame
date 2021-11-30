@@ -47,18 +47,13 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         // Possible variable for state of light?
         // Moth only selects from list those that are set to on / true / active or whatever
         var mothCircle = new Phaser.Geom.Circle(this.x, this.y, this.attractionRadius);
-        var lightsInMothRadius = this.scene.map.getTilesWithinShape(mothCircle,
-            {
-            isNotEmpty: true,
-            isColliding: false,
-            hasInterestingFace: false
-            },
+        var lightsInMothRadius = this.scene.map.getTilesWithinShape(
+            mothCircle,
+            {isNotEmpty: true,
+             isColliding: false,
+             hasInterestingFace: false},
             this.scene.cameras.main,
             this.targetLayer);
-
-        // lightsInMothRadius.forEach(el => {
-        //     console.log(el);
-        // });
 
         // Declare these variables at this point
         // They are used in multiple functions below
@@ -66,7 +61,11 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         var attractionFactor = 1;
 
         lightsInMothRadius.forEach(element => {
-            if (element.inactive == true) {
+            // Ignore lights that are off or obstructed by walls
+            if (
+                element.inactive == true
+                || !this.canSee(element)
+            ) {
                 return;
             } else {
                 //.pixelX and .pixelY are the top left of the tile
@@ -115,6 +114,27 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         }
     }
 
+    /**
+    * Does the moth have line of sight to a light?
+    *
+    * We can check this by essentially doing ray-casting. We construct
+    * a line from our moth to the light and collide it with the
+    * tilemap walls layer. If we get a hit then we know our sight is
+    * obstructed.
+    */
+    canSee(light) {
+        let sightLine = new Phaser.Geom.Line(this.x, this.y, light.pixelX, light.pixelY);
+        let obstructingWalls = this.scene.map.getTilesWithinShape(
+            sightLine,
+            {isNotEmpty: true,
+             isColliding: true,
+             hasInterestingFace: false},
+            this.scene.cameras.main,
+            "walls"
+        );
+        return (obstructingWalls.length == 0);
+    }
+
     simpleMove() {
         // Maintain some random movement for personality and unpredictability
         let r = this.rand.angle();
@@ -155,6 +175,6 @@ export default class Moth extends Phaser.GameObjects.Sprite {
     }
 
     loseHealth(value) {
-        this.health = this.health - value;        
+        this.health = this.health - value;
     }
 }
