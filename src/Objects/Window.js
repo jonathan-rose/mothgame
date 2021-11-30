@@ -62,6 +62,11 @@ export default class Window extends Phaser.GameObjects.Rectangle {
             duration: 300,
             height: 0
         });
+        if (this.scene.sys.game.globals.model.soundOn === true) {
+            let sounds = ['window1', 'window2'];
+            let randSound = sounds[Math.floor(Math.random()*sounds.length)];
+            this.scene.game.registry.get(randSound).play();
+        }
     }
 
     close() {
@@ -74,6 +79,11 @@ export default class Window extends Phaser.GameObjects.Rectangle {
             duration: 300,
             height: originalHeight
         });
+        if (this.scene.sys.game.globals.model.soundOn === true) {
+            let sounds = ['window1', 'window2'];
+            let randSound = sounds[Math.floor(Math.random()*sounds.length)];
+            this.scene.game.registry.get(randSound).play();
+        }
     }
 
     /**
@@ -93,7 +103,7 @@ export default class Window extends Phaser.GameObjects.Rectangle {
     * There may well be a better way of doing this :P
     */
     maybeSpawnMoths() {
-        if (this.isOpen) {
+        if (this.isOpen && this.scene.playing) {
             let max = (this.mothChance - mothChanceDelta);
             if (Phaser.Math.Between(0, max) > mothChanceThreshhold) {
                 // We want the moths to start off-screen and the fly in through the window.

@@ -55,8 +55,14 @@ export default class Room extends Phaser.GameObjects.Rectangle {
         // Then find the pointlight in the scene that shares the room name
         this.setInteractive(clickRegion, Phaser.Geom.Rectangle.Contains);
         this.on('pointerdown', function () {
-            console.log("Click " + this.name);
             var targetLight = this.scene.children.list.find(el => el.name === this.name);
+            if (this.scene.sys.game.globals.model.soundOn === true) {
+                if (targetLight.visible) {
+                    this.scene.game.registry.get('lightOff').play();
+                } else {
+                    this.scene.game.registry.get('lightOn').play();
+                }
+            }
             targetLight.visible = !targetLight.visible;
             var map = this.scene.map;
             var targetTile = map.getTileAtWorldXY(this.x + (roomWidth / 2), this.y, true, this.scene.cameras.main, "lights");
