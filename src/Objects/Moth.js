@@ -55,30 +55,38 @@ export default class Moth extends Phaser.GameObjects.Sprite {
             this.scene.cameras.main,
             this.targetLayer);
 
+        // lightsInMothRadius.forEach(el => {
+        //     console.log(el);
+        // });
+
         // Declare these variables at this point
         // They are used in multiple functions below
         var nearbyLightsData = [];
         var attractionFactor = 1;
 
         lightsInMothRadius.forEach(element => {
-            //.pixelX and .pixelY are the top left of the tile
-            // They are used because .x and .y return the values of the tile on the tile grid, not the world
-            var elementCenterX = (element.pixelX + (element.width / 2));
-            var elementCenterY = (element.pixelY + (element.height / 2));
-            var distanceToElement = Phaser.Math.Distance.Between(this.x, this.y, elementCenterX, elementCenterY);
-            var angleToElementRad = Phaser.Math.Angle.Between(this.x, this.y, elementCenterX, elementCenterY);
-            // var angleToElementDeg = Phaser.Math.RadToDeg(angleToElementRad);
+            if (element.inactive == true) {
+                return;
+            } else {
+                //.pixelX and .pixelY are the top left of the tile
+                // They are used because .x and .y return the values of the tile on the tile grid, not the world
+                var elementCenterX = (element.pixelX + (element.width / 2));
+                var elementCenterY = (element.pixelY + (element.height / 2));
+                var distanceToElement = Phaser.Math.Distance.Between(this.x, this.y, elementCenterX, elementCenterY);
+                var angleToElementRad = Phaser.Math.Angle.Between(this.x, this.y, elementCenterX, elementCenterY);
+                // var angleToElementDeg = Phaser.Math.RadToDeg(angleToElementRad);
 
-            // As distance to light decreases, so does attractionFactor
-            // This is then later used to set the sprites bounce
-            // Result is less bounce when moth is closer to light
-            attractionFactor = ((1 - (10 / distanceToElement)) * 0.75);
-            // console.log(distanceToElement, attractionFactor);
+                // As distance to light decreases, so does attractionFactor
+                // This is then later used to set the sprites bounce
+                // Result is less bounce when moth is closer to light
+                attractionFactor = ((1 - (10 / distanceToElement)) * 0.75);
+                // console.log(distanceToElement, attractionFactor);
 
-            // Add position and angle of current light to nearbyLightsData array
-            // (Result is an array of arrays)
-            var elementValues = [distanceToElement, angleToElementRad];
-            nearbyLightsData.push(elementValues);
+                // Add position and angle of current light to nearbyLightsData array
+                // (Result is an array of arrays)
+                var elementValues = [distanceToElement, angleToElementRad];
+                nearbyLightsData.push(elementValues);
+            }
         });
 
         // Sort array by lowest (nearest) to highest (furthest)

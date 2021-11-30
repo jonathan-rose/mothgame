@@ -20,7 +20,9 @@ export default class Room extends Phaser.GameObjects.Rectangle {
         // Use console.log(this.map.tilesets) to see tilesets and GIDs
         var map = this.scene.map;
         map.putTileAtWorldXY(6, this.x + (roomWidth / 2), this.y, true, this.scene.cameras.main, "lights");
-
+        var newLightTile = map.getTileAtWorldXY(this.x + (roomWidth / 2), this.y, true, this.scene.cameras.main, "lights");
+        newLightTile.inactive = false;
+        
         // Create point light at midpoint of room ceiling
         var light = new Phaser.GameObjects.PointLight(
             this.scene, 
@@ -56,6 +58,9 @@ export default class Room extends Phaser.GameObjects.Rectangle {
             console.log("Click " + this.name);
             var targetLight = this.scene.children.list.find(el => el.name === this.name);
             targetLight.visible = !targetLight.visible;
+            var map = this.scene.map;
+            var targetTile = map.getTileAtWorldXY(this.x + (roomWidth / 2), this.y, true, this.scene.cameras.main, "lights");
+            targetTile.inactive = !targetTile.inactive;
         });
 
         this.scene.add.existing(this);

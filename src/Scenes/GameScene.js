@@ -31,13 +31,12 @@ export default class GameScene extends Phaser.Scene {
         // First parameter should be name of tileset as seen in Tiled tilesets list
         const tileset = this.map.addTilesetImage("10x10tileset", "house1");
 
-        console.log(this.map.tilesets);
-
         // Create variables for each entity layer in JSON tileset
         const wallLayer = this.map.createLayer("walls", tileset, 0, 0);
         const windowsLayer = this.map.createLayer("windows", tileset, 0, 0);
         const hazardsLayer = this.map.createLayer("hazards", tileset, 0, 0);
         const lightsLayer = this.map.createLayer("lights", tileset, 0, 0);
+        const inactiveLightsLayer = this.map.createLayer("inactiveLights", tileset, 0, 0);
         const roomsLayer = this.map.getObjectLayer("RoomObjects");
 
         this.rooms = this.add.group();
