@@ -32,12 +32,11 @@ export default class GameScene extends Phaser.Scene {
         const tileset = this.map.addTilesetImage("10x10tileset", "house1");
 
         // Create variables for each entity layer in JSON tileset
-        const wallLayer = this.map.createLayer("walls", tileset, 0, 0);
-        const windowsLayer = this.map.createLayer("windows", tileset, 0, 0);
-        const hazardsLayer = this.map.createLayer("hazards", tileset, 0, 0);
-        const lightsLayer = this.map.createLayer("lights", tileset, 0, 0);
-        const inactiveLightsLayer = this.map.createLayer("inactiveLights", tileset, 0, 0);
-        const roomsLayer = this.map.getObjectLayer("RoomObjects");
+        let wallLayer = this.map.createLayer("walls", tileset, 0, 0);
+        let windowsLayer = this.map.createLayer("windows", tileset, 0, 0);
+        let hazardsLayer = this.map.createLayer("hazards", tileset, 0, 0);
+        let lightsLayer = this.map.createLayer("lights", tileset, 0, 0);
+        let roomsLayer = this.map.getObjectLayer("RoomObjects");
 
         this.rooms = this.add.group();
         roomsLayer.objects.forEach(o => {
@@ -60,11 +59,12 @@ export default class GameScene extends Phaser.Scene {
         });
        
         // Specify which tiles on each layer the player can collide with
-        // Parameters refer to tile IDs found via Tiled editor
+        // Parameters refer to tile GIDs
+        // Use console.log(this.map.tilesets) to see tilesets and GIDs
         wallLayer.setCollision(2);
-        windowsLayer.setCollision(5);
+        windowsLayer.setCollision(3);
         hazardsLayer.setCollision(4);
-        lightsLayer.setCollision(3);
+        lightsLayer.setCollision(6);
 
         // Moth sprite group (controls physics for all moths)
         this.moths = this.physics.add.group({
@@ -80,35 +80,34 @@ export default class GameScene extends Phaser.Scene {
             this.moths.add(
                 new Moth(
                     this,
-                    Phaser.Math.Between(20, 780),
-                    Phaser.Math.Between(50, 500),
-                    // 100,
-                    // 200
+                    // Phaser.Math.Between(20, 780),
+                    // Phaser.Math.Between(50, 500),
+                    100,
+                    200
                 )
             );
         }
 
         // Add colliders between moths and hazards layer
         this.physics.add.collider(this.moths, wallLayer);
+
         this.physics.add.collider(this.moths, windowsLayer, function(moth, windowsLayer) {
 
         });
+
         this.physics.add.collider(this.moths, hazardsLayer, function(moth, hazardsLayer) {
-            moth.destroy();
-            console.log("Moth dies...");
+
         });
+
         this.physics.add.collider(this.moths, lightsLayer, function(moth, lightsLayer) {
             console.log("Ow...");
+            moth.loseHealth(5);
+            console.log(moth.health);
         });
 
     }
     update ()
     {
-        // // console.log(game.input.mousePointer.x);
-        // // console.log(game.input.mousePointer.y);
-        // document.addEventListener('mousemove', (event) => {
-        //     console.log(`Mouse X: ${event.clientX}, Mouse Y: ${event.clientY}`);
-        // });
 
     }
 };
