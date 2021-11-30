@@ -1,8 +1,8 @@
 import 'phaser';
 import Moth from './Moth';
 
-const originalWidth = 15;
-const originalHeight = 60;
+const originalWidth = 10;
+const originalHeight = 100;
 const originalMothChance = 0;
 const mothChanceDelta = 3;
 const mothChanceThreshhold = 2;
@@ -12,10 +12,11 @@ export default class Window extends Phaser.GameObjects.Rectangle {
     constructor(scene, windowTile) {
         super(scene,
               (windowTile.pixelX + (windowTile.width / 2)),
-              (windowTile.pixelY + (windowTile.height / 2)),
+              (windowTile.pixelY + (originalHeight / 2)),
               originalWidth,
               originalHeight,
-              0xc2f0fb);
+              0xc2f0fb,
+              0.5);
         this.scene = scene;
         this.isOpen = false;
         this.mothChance = originalMothChance;
@@ -45,10 +46,11 @@ export default class Window extends Phaser.GameObjects.Rectangle {
         }));
 
         this.scene.add.existing(this);
+        this.scene.physics.add.existing(this);
     }
 
     getBounds() {
-        return Phaser.Geom.Rectangle(this.x, this.y, this.width, 60);
+        return Phaser.Geom.Rectangle(this.x, this.y, this.width, originalHeight);
     }
 
     open() {
