@@ -48,8 +48,7 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         });
 
         this.on('pointerdown', function (pointer) {
-            scene.model = scene.sys.game.globals.model;
-            if (scene.model.soundOn === true) {
+            if (scene.sys.game.globals.model.soundOn === true) {
                 let sounds = ['pah1', 'pah2', 'pah3'];
                 let randSound = sounds[Math.floor(Math.random()*sounds.length)]
                 scene.game.registry.get(randSound).play();
@@ -145,6 +144,11 @@ export default class Moth extends Phaser.GameObjects.Sprite {
         }
 
         if (this.health <= 0) {
+            if (this.scene.sys.game.globals.model.soundOn === true) {
+                let sounds = ['death1', 'death2', 'death3'];
+                let randSound = sounds[Math.floor(Math.random()*sounds.length)]
+                this.scene.game.registry.get(randSound).play();
+            }
             this.destroy();
         }
     }
