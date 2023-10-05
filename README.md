@@ -1,4 +1,4 @@
-# Working Title Moth Game
+# Mothing Really Matters
 
 Submission for the GitHub Game Off 2021
 
